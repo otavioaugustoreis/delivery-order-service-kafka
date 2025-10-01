@@ -1,17 +1,31 @@
-﻿using delivery_order_services.Features.UserFeatureEvent.Contracts;
+﻿using delivery_order_services.Features.OrderCreatingFeature.Models;
+using delivery_order_services.Features.UserFeatureEvent.Contracts;
+using delivery_order_services.Features.UserFeatureEvent.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace delivery_order_services.Features.UserFeatureEvent
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[ApiController]")]
     public class UserController : ControllerBase
     {
-        private readonly Contracts.IUserCreatingEventUseCase userIUserServiceUseCase;
+        private readonly IUserCreatingEventUseCase _userIUserServiceUseCase;
 
-        public UserController(Contracts.IUserCreatingEventUseCase userIUserServiceUseCase)
+        public UserController(IUserCreatingEventUseCase userIUserServiceUseCase)
         {
-            this.userIUserServiceUseCase = userIUserServiceUseCase;
+            _userIUserServiceUseCase = userIUserServiceUseCase;
+        }
+
+        [HttpPost]
+        public ActionResult PostCreateEventUser(
+                [FromBody] UserRequestModel userRequest
+            )
+        {
+            var userCreated = _userIUserServiceUseCase.ExecuteAsync(userRequest);
+
+            return Created(
+                new Uri("")
+                ,userCreated);
         }
     }
 }

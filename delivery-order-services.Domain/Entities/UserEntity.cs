@@ -24,7 +24,5 @@ namespace delivery_order_services.Domain.Entities
 
         [BsonElement("UserType")]
         public string UserType { get; set; } = string.Empty;
-
-        public string GetUserType(UserType userType) => userType.ToString();
     }
 }
