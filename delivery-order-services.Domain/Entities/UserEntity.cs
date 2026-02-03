@@ -19,7 +19,6 @@ namespace delivery_order_services.Domain.Entities
         public string Name { get; set; } = string.Empty;
 
         [BsonElement("Email")]
-        
         public string Email { get; set; } = string.Empty;
 
         [BsonElement("UserType")]

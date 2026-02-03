@@ -1,21 +1,30 @@
-﻿using delivery_order_services.Domain.Repositories.Contracts;
+﻿using delivery_order_services.Commons.ResultPattern;
+using delivery_order_services.Domain.Entities;
+using delivery_order_services.Domain.Repositories.Contracts;
 using delivery_order_services.Features.OrderCreatingFeature.Models;
-using delivery_order_services.Features.OrderFeatureEvent.Contracts;
+using System.Reflection;
 
 namespace delivery_order_services.Features.OrderCreatingFeature.UseCase
 {
-    public class OrderEventUseCase : IOrderEventUseCase
+    public class OrderEventUseCase(
+        IOrderRepository orderRepository,
+        ILogger<OrderEventUseCase> logger) : IOrderEventUseCase
     {
-        private readonly IOrderRepository orderRepository;
+        private readonly IOrderRepository _orderRepository = orderRepository;
+        private readonly ILogger<OrderEventUseCase> _logger = logger;
 
-        public OrderEventUseCase(IOrderRepository orderRepository)
+        public async Task<Result<bool>>ExecuteAsync(OrderEntity orderRequestModel)
         {
-            this.orderRepository = orderRepository;
-        }
+            try
+            {
+                return Result<bool>.Success(true);
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError(ex, "An error occurred in method {MethodName}. Exception Type: {ExceptionType}", nameof(ExecuteAsync), ex.GetType().Name);
 
-        public Task ExecuteAsync(OrderRequestModel orderRequestModel)
-        {
-            throw new NotImplementedException();
+                throw;
+            }
         }
     }
 }

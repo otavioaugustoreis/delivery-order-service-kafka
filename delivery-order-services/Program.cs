@@ -4,10 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-builder.Services.AddAllExtensions(configuration);
-
 builder.Services.AddControllers();
-
+builder.Services.AddAllExtensions(configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
