@@ -1,27 +1,24 @@
-using delivery_order_services.ServicesCollectionExtensions;
+using delivery_order_services;
 
-var builder = WebApplication.CreateBuilder(args);
-
-var configuration = builder.Configuration;
-
-builder.Services.AddControllers();
-builder.Services.AddAllExtensions(configuration);
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace WebApi
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public static class Program
+    {
+        private static void Main(string[] args)
+        {
+           CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureLogging(c => 
+            {
+                c.ClearProviders();
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+    }
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
