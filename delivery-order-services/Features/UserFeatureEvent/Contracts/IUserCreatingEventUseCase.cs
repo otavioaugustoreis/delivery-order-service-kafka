@@ -6,7 +6,7 @@ namespace delivery_order_services.Features.UserFeatureEvent.Contracts
 {
     public interface IUserCreatingEventUseCase
     {
-        Task<Result<UserResponseModel>> ExecuteAsync(UserRequestModel userRequest);
-        Task<Result<List<UserEntity>>> GetAll();
+        Task<Result<UserResponseModel>> ExecuteAsync(UserRequestModel input, CancellationToken cancellationToken);
+        Task<Result<List<UserEntity>>> GetAllAsync();
     }
 }

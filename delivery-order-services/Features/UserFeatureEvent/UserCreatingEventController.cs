@@ -1,38 +1,40 @@
 ﻿using delivery_order_services.Commons.Mapper;
-using delivery_order_services.Features.OrderCreatingFeature.Models;
 using delivery_order_services.Features.UserFeatureEvent.Contracts;
 using delivery_order_services.Features.UserFeatureEvent.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace delivery_order_services.Features.UserFeatureEvent
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserCreatingEventUseCase _userIUserServiceUseCase;
+        private readonly IUserCreatingEventUseCase _usecase;
 
         public UserController(IUserCreatingEventUseCase userIUserServiceUseCase)
         {
-            _userIUserServiceUseCase = userIUserServiceUseCase;
+            _usecase = userIUserServiceUseCase;
         }
 
         [HttpPost]
-        public ActionResult PostCreateEventUser(
-                [FromBody] UserRequestModel userRequest
+        public async Task<ActionResult> PostCreatingUserAsync(
+                [FromBody] UserRequestModel userRequest,
+                CancellationToken cancellationToken
             )
         {
-            var userCreated = _userIUserServiceUseCase.ExecuteAsync(userRequest);
+            var userCreated = await _usecase.ExecuteAsync(userRequest, cancellationToken);
 
             return Ok(MessageCommons.USUARIO_CADASTRADO);
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllUsers()
+        public async Task<ActionResult> GetAllUsersAsync()
         {
-            var result = await _userIUserServiceUseCase.GetAll();
+            var result = await _usecase.GetAllAsync();
 
-            return Ok(result.Content);
+            return result.IsSuccess 
+                ? Ok(result.Content) 
+                : BadRequest(result.ErrorMessage!);
         }
     }
 }

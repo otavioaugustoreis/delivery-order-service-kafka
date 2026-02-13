@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace delivery_order_services.Features.OrderCreatingFeature
 {
 
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
     {

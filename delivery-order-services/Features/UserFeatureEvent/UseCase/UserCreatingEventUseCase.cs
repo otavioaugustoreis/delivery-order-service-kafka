@@ -3,7 +3,8 @@ using delivery_order_services.Domain.Entities;
 using delivery_order_services.Domain.Repositories.Contracts;
 using delivery_order_services.Features.UserFeatureEvent.Contracts;
 using delivery_order_services.Features.UserFeatureEvent.Model;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Http.HttpResults;
+
 
 namespace delivery_order_services.Features.UserFeatureEvent.UseCase
 {
@@ -17,25 +18,18 @@ namespace delivery_order_services.Features.UserFeatureEvent.UseCase
         private readonly IUserRepository userRepository = _userRepository;
 
 
-        public async Task<Result<UserResponseModel>> ExecuteAsync(UserRequestModel userRequest)
+        public async Task<Result<UserResponseModel>> ExecuteAsync(UserRequestModel userRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var userReponse = userRepository.CreateAsync
-                    (
+                 await userRepository.CreateAsync(
                       new()
                       {
                           Name = userRequest.Name,
                           Email = userRequest.Email,
                           UserType = UserRequestModel.GetUserType(userRequest.UserType)
-                      }
+                      }, cancellationToken
                     );
-
-                if (userReponse.IsFaulted)
-                {
-                    return Result<UserResponseModel>.Failed(
-                        $"An error occurred in the class {nameof(UserCreatingEventUseCase)}");
-                }
 
                 var userModel = new UserResponseModel(
                     userRequest.Name,
@@ -46,19 +40,37 @@ namespace delivery_order_services.Features.UserFeatureEvent.UseCase
             }
             catch (Exception ex)
             {
-                _logger.LogError(
-                    $"An error occurred in the  class{nameof(UserCreatingEventUseCase)}");
+                _logger.LogError(ex,"[{Type}] An error occurred. Input: {@Input}",
+                    nameof(UserCreatingEventUseCase),
+                    new
+                    {
+                        Method = nameof(ExecuteAsync)
+                    });
 
-                return Result<UserResponseModel>.Failed(
-                    $"An error occurred in the class {nameof(UserCreatingEventUseCase)}," +
-                    $" message: {ex.Message}");
+                return Result<UserResponseModel>.Failed($"An error occurred in the class {nameof(UserCreatingEventUseCase)}");
             }
         }
 
-        public async Task<Result<List<UserEntity>>> GetAll()
+        public async Task<Result<List<UserEntity>>> GetAllAsync()
         {
-            var result = await userRepository.GetAllAsync();
-            return Result<List<UserEntity>>.Success(result);
+            try
+            {
+                var result = await userRepository.GetAllAsync();
+
+                return Result<List<UserEntity>>.Success(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[{Type}] An error occurred. Input: {@Input}",
+                    nameof(UserCreatingEventUseCase),
+                    new
+                    {
+                        Method = nameof(GetAllAsync)
+
+                    });
+
+                return Result<List<UserEntity>>.Failed($"An error occurred in the class {nameof(UserCreatingEventUseCase)}");
+            }   
         }
     }
 }

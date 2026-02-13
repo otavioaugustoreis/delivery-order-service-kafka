@@ -18,10 +18,10 @@ namespace delivery_order_services.Domain.Repositories
         public async Task<List<UserEntity>> GetAllAsync()
             => await _collection.Find(_ => true).ToListAsync();
 
-        public async Task<UserEntity?> GetByIdAsync(string id)
-            => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<UserEntity?> GetByIdAsync(string id, CancellationToken cancellationToken)
+            => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
-        public async Task CreateAsync(UserEntity userEntity)
-            => await _collection.InsertOneAsync(userEntity);
+        public async Task CreateAsync(UserEntity userEntity, CancellationToken cancellationToken)
+            => await _collection.InsertOneAsync(userEntity, cancellationToken);
     }
 }
