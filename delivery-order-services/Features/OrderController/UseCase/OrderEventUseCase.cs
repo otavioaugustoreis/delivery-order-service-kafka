@@ -21,9 +21,14 @@ namespace delivery_order_services.Features.OrderCreatingFeature.UseCase
             }
             catch (Exception ex) 
             {
-                _logger.LogError(ex, "An error occurred in method {MethodName}. Exception Type: {ExceptionType}", nameof(ExecuteAsync), ex.GetType().Name);
+                _logger.LogError(ex, 
+                    "An error occurred in method {MethodName}. Input:{@input}", 
+                    nameof(ExecuteAsync), new
+                    {
+                        orderRequestModel.ProductName
+                    });
 
-                throw;
+                
             }
         }
     }

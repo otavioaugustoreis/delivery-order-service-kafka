@@ -1,31 +1,34 @@
 ﻿namespace delivery_order_services.Commons.ResultPattern
 {
-    public class Result<T>
+
+    public class Result 
     {
-        public T Content { get; private set; }
         public string? ErrorMessage { get; private set; }
-        public bool IsSuccess { get; private set; } 
+        public bool IsSuccess { get; private set; }
 
-        public Result(string? errorMesssage,T content ,bool isSuccess)
+
+        public Result(string? errorMessage, bool isSuccess)
         {
-            if (string.IsNullOrEmpty(errorMesssage))
-                ErrorMessage = "Ocorreu um erro inesperado";
-
-            ErrorMessage = errorMesssage;
+            ErrorMessage = errorMessage;
             IsSuccess = isSuccess;
+        }
+
+        public static Result Success() => new(null, true);
+        public static Result Failed(string? errorMessage) => new(errorMessage!, false);
+
+    }
+
+
+    public class Result<T> : Result
+    {
+        public T? Content { get; private set; }
+        
+        public Result(string? errorMesssage,T content ,bool isSuccess) : base(errorMesssage,isSuccess)
+        {
             Content = content;
         }
 
-        public Result(string? errorMesssage, bool isSuccess)
-        {
-            if (string.IsNullOrEmpty(errorMesssage))
-                ErrorMessage = "Ocorreu um erro inesperado";
-
-            ErrorMessage = errorMesssage;
-            IsSuccess = isSuccess;
-        }
-
-        public Result()
+        public Result(string? errorMesssage, bool isSuccess) : base(errorMesssage,isSuccess)
         {
         }
 
