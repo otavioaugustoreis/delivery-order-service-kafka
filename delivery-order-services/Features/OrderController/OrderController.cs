@@ -1,9 +1,9 @@
 ﻿using delivery_order_services.Commons.Mapper;
-using delivery_order_services.Features.OrderCreatingFeature.Models;
-using delivery_order_services.Features.OrderCreatingFeature.UseCase;
+using delivery_order_services.Features.OrderController.Models;
+using delivery_order_services.Features.OrderController.UseCase;
 using Microsoft.AspNetCore.Mvc;
 
-namespace delivery_order_services.Features.OrderCreatingFeature
+namespace delivery_order_services.Features.OrderController
 {
 
     [Route("api/v1/[controller]")]

@@ -1,10 +1,11 @@
-﻿using delivery_order_services.Commons.ResultPattern;
+﻿using Confluent.Kafka;
+using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Domain.Entities;
 using delivery_order_services.Domain.Repositories.Contracts;
-using delivery_order_services.Features.OrderCreatingFeature.Models;
-using System.Reflection;
+using delivery_order_services.Producer;
 
-namespace delivery_order_services.Features.OrderCreatingFeature.UseCase
+
+namespace delivery_order_services.Features.OrderController.UseCase
 {
     public class OrderEventUseCase(
         IOrderRepository orderRepository,
@@ -12,12 +13,13 @@ namespace delivery_order_services.Features.OrderCreatingFeature.UseCase
     {
         private readonly IOrderRepository _orderRepository = orderRepository;
         private readonly ILogger<OrderEventUseCase> _logger = logger;
+        private readonly IOrderProducer _orderProducer;
 
-        public async Task<Result<bool>>ExecuteAsync(OrderEntity orderRequestModel)
+        public async Task<Result>ExecuteAsync(OrderEntity orderRequestModel)
         {
             try
             {
-                return Result<bool>.Success(true);
+                return Result.Success();
             }
             catch (Exception ex) 
             {
@@ -28,7 +30,7 @@ namespace delivery_order_services.Features.OrderCreatingFeature.UseCase
                         orderRequestModel.ProductName
                     });
 
-                
+                return Result.Failed($"An error occurred in method: {nameof(ExecuteAsync)}");
             }
         }
     }

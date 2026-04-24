@@ -1,9 +1,9 @@
 ﻿using delivery_order_services.Domain.Entities;
 
-namespace delivery_order_services.Domain.Producer
+namespace delivery_order_services.Producer
 {
     public interface IOrderProducer
     {
-        Task HandleAsync(OrderEnvelope entity);
+        Task HandleAsync(OrderEnvelope envelope);
     }
 }

@@ -1,6 +1,4 @@
-using delivery_order_services;
-
-namespace WebApi
+namespace delivery_order_services
 {
     public static class Program
     {

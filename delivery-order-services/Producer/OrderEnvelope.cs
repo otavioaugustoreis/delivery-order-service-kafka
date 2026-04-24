@@ -1,9 +1,7 @@
-﻿
-
-using delivery_order_services.Domain.Entities;
+﻿using delivery_order_services.Domain.Entities;
 using delivery_order_services.Domain.Shared;
 
-namespace delivery_order_services.Domain.Producer
+namespace delivery_order_services.Producer
 {
     public class OrderEnvelope
     {

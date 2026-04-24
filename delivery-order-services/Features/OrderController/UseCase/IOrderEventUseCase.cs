@@ -2,10 +2,10 @@
 using delivery_order_services.Domain.Entities;
 using delivery_order_services.Features.OrderCreatingFeature.Models;
 
-namespace delivery_order_services.Features.OrderCreatingFeature.UseCase
+namespace delivery_order_services.Features.OrderController.UseCase
 {
     public interface IOrderEventUseCase
     {
-        Task<Result<bool>> ExecuteAsync(OrderEntity orderRequestModel);
+        Task<Result> ExecuteAsync(OrderEntity orderRequestModel);
     }
 }

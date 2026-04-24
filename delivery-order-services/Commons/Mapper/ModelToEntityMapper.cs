@@ -1,6 +1,6 @@
 ﻿using delivery_order_services.Domain.Entities;
-using delivery_order_services.Features.OrderCreatingFeature.Models;
-using delivery_order_services.Features.UserFeatureEvent.Model;
+using delivery_order_services.Features.OrderController.Models;
+using delivery_order_services.Features.UserController.Model;
 using System.Runtime.CompilerServices;
 
 namespace delivery_order_services.Commons.Mapper

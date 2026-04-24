@@ -1,12 +1,12 @@
 ﻿using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Domain.Entities;
 using delivery_order_services.Domain.Repositories.Contracts;
-using delivery_order_services.Features.UserFeatureEvent.Contracts;
-using delivery_order_services.Features.UserFeatureEvent.Model;
+using delivery_order_services.Features.UserController.Contracts;
+using delivery_order_services.Features.UserController.Model;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 
-namespace delivery_order_services.Features.UserFeatureEvent.UseCase
+namespace delivery_order_services.Features.UserController.UseCase
 {
     public class UserCreatingEventUseCase(
         IUserRepository _userRepository,

@@ -1,9 +1,9 @@
 ﻿using delivery_order_services.Domain.Repositories;
 using delivery_order_services.Domain.Repositories.Configuration;
 using delivery_order_services.Domain.Repositories.Contracts;
-using delivery_order_services.Features.OrderCreatingFeature.UseCase;
-using delivery_order_services.Features.UserFeatureEvent.Contracts;
-using delivery_order_services.Features.UserFeatureEvent.UseCase;
+using delivery_order_services.Features.OrderController.UseCase;
+using delivery_order_services.Features.UserController.Contracts;
+using delivery_order_services.Features.UserController.UseCase;
 
 namespace delivery_order_services.ServicesCollectionExtensions
 {
