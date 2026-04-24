@@ -25,7 +25,7 @@ namespace delivery_order_services.Features.OrderCreatingFeature
            var order = await _orderEventUseCase.ExecuteAsync(orderRequest.ToOrderEntity());
 
             return order.IsSuccess
-                ? Ok(MessageCommons.PEDIDO_REGISTRADO)
+                ? Ok()
                 : BadRequest();
         }
     }

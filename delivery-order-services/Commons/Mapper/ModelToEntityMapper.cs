@@ -23,7 +23,7 @@ namespace delivery_order_services.Commons.Mapper
             {
                 ProductName = orderModel.ProductName,
                 OrderStatus = orderModel.OrderStatus.ToString(),
-                Client = orderModel.Client,
+                ClientId = orderModel.Client,
             };
         }
     }

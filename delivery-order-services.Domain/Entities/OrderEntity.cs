@@ -16,8 +16,8 @@ namespace delivery_order_services.Domain.Entities
         [BsonElement("OrderStatus")]
         public string OrderStatus { get; set; } = default!;
 
-        [BsonElement("Client")]
-        public string  Client{ get; set; } = string.Empty;
+        [BsonElement("ClientId")]
+        public string ClientId{ get; set; } = string.Empty;
 
         public string GetOrderStatus(OrderStatus orderStatus) => orderStatus.ToString();
     }
