@@ -1,8 +1,7 @@
 ﻿
 
 using Confluent.Kafka;
-using delivery_order_services.Commons;
-using delivery_order_services.Domain.Repositories.Contracts;
+using DnsClient.Internal;
 using System.Text.Json;
 
 namespace delivery_order_services.Producer
@@ -11,7 +10,12 @@ namespace delivery_order_services.Producer
     {
         private readonly string _kafkaBootstrapServers;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<OrderProducer> _logger;
 
+        public OrderProducer(ILogger<OrderProducer> logger)
+        {
+            _logger = logger;
+        }
 
         public async Task HandleAsync(OrderEnvelope envelope)
         {
@@ -33,11 +37,26 @@ namespace delivery_order_services.Producer
                         { 
                             Value = orderConvertedToJson
                         });
+
+                    _logger.LogInformation("An error occurred in method {MethodName}. Input:{@input}",
+                    nameof(HandleAsync),
+                    new
+                    {
+                        envelope.Value
+                    });
                 }
 
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex,
+                    "An error occurred in method {MethodName}. Input:{@input}",
+                    nameof(HandleAsync),
+                    new
+                    {
+                        envelope.Value
+                    });
+
                 throw;
             }
         }

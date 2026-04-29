@@ -19,6 +19,19 @@ namespace delivery_order_services.Features.OrderController.UseCase
         {
             try
             {
+                var orderEnvelope = new OrderEnvelope
+                {
+                    Value = orderRequestModel
+                };
+                
+                await _orderProducer.HandleAsync(orderEnvelope);
+
+                _logger.LogInformation("");
+
+                await _orderRepository.CreateAsync(orderRequestModel);
+
+                _logger.LogInformation("");
+
                 return Result.Success();
             }
             catch (Exception ex) 

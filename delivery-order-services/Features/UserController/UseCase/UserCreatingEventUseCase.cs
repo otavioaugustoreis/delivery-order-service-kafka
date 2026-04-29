@@ -3,7 +3,6 @@ using delivery_order_services.Domain.Entities;
 using delivery_order_services.Domain.Repositories.Contracts;
 using delivery_order_services.Features.UserController.Contracts;
 using delivery_order_services.Features.UserController.Model;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 
 namespace delivery_order_services.Features.UserController.UseCase
@@ -74,3 +73,4 @@ namespace delivery_order_services.Features.UserController.UseCase
         }
     }
 }
+//Feature a criar -> Criar Produção dellll
