@@ -1,8 +1,8 @@
 ﻿using delivery_order_services.Commons.ResultPattern;
+using delivery_order_services.Controllers.User.Model;
 using delivery_order_services.Domain.Entities;
-using delivery_order_services.Features.UserController.Model;
 
-namespace delivery_order_services.Features.UserController.Contracts
+namespace delivery_order_services.Controllers.User.Contracts
 {
     public interface IUserCreatingEventUseCase
     {

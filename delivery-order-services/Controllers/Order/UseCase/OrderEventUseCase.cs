@@ -5,7 +5,7 @@ using delivery_order_services.Domain.Repositories.Contracts;
 using delivery_order_services.Producer;
 
 
-namespace delivery_order_services.Features.OrderController.UseCase
+namespace delivery_order_services.Controllers.Order.UseCase
 {
     public class OrderEventUseCase(
         IOrderRepository orderRepository,
@@ -23,12 +23,12 @@ namespace delivery_order_services.Features.OrderController.UseCase
                 {
                     Value = orderRequestModel
                 };
-                
-                await _orderProducer.HandleAsync(orderEnvelope);
+
+                await _orderRepository.CreateAsync(orderRequestModel);
 
                 _logger.LogInformation("");
 
-                await _orderRepository.CreateAsync(orderRequestModel);
+                await _orderProducer.HandleAsync(orderEnvelope);
 
                 _logger.LogInformation("");
 

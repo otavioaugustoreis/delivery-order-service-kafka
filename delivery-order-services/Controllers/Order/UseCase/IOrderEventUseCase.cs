@@ -1,7 +1,7 @@
 ﻿using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Domain.Entities;
 
-namespace delivery_order_services.Features.OrderController.UseCase
+namespace delivery_order_services.Controllers.Order.UseCase
 {
     public interface IOrderEventUseCase
     {

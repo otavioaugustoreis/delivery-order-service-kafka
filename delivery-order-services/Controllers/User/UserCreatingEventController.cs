@@ -1,9 +1,9 @@
 ﻿using delivery_order_services.Commons.Mapper;
-using delivery_order_services.Features.UserController.Contracts;
-using delivery_order_services.Features.UserController.Model;
+using delivery_order_services.Controllers.User.Contracts;
+using delivery_order_services.Controllers.User.Model;
 using Microsoft.AspNetCore.Mvc;
 
-namespace delivery_order_services.Features.UserController
+namespace delivery_order_services.Controllers.User
 {
     [Route("api/v1/[controller]")]
     [ApiController]

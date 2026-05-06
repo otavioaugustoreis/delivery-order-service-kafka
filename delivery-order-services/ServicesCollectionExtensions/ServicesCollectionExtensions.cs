@@ -1,10 +1,10 @@
 ﻿using Confluent.Kafka;
+using delivery_order_services.Controllers.Order.UseCase;
+using delivery_order_services.Controllers.User.Contracts;
+using delivery_order_services.Controllers.User.UseCase;
 using delivery_order_services.Domain.Repositories;
 using delivery_order_services.Domain.Repositories.Configuration;
 using delivery_order_services.Domain.Repositories.Contracts;
-using delivery_order_services.Features.OrderController.UseCase;
-using delivery_order_services.Features.UserController.Contracts;
-using delivery_order_services.Features.UserController.UseCase;
 using delivery_order_services.Producer;
 
 namespace delivery_order_services.ServicesCollectionExtensions
