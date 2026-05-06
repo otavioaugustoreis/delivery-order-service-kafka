@@ -7,24 +7,33 @@ using delivery_order_services.Producer;
 
 namespace delivery_order_services.Controllers.Order.UseCase
 {
-    public class OrderEventUseCase(
-        IOrderRepository orderRepository,
-        ILogger<OrderEventUseCase> logger) : IOrderEventUseCase
+    public class OrderEventUseCase : IOrderEventUseCase
     {
-        private readonly IOrderRepository _orderRepository = orderRepository;
-        private readonly ILogger<OrderEventUseCase> _logger = logger;
+        private readonly IOrderRepository _orderRepository;
+        private readonly ILogger<OrderEventUseCase> _logger;
         private readonly IOrderProducer _orderProducer;
 
-        public async Task<Result>ExecuteAsync(OrderEntity orderRequestModel)
+        public OrderEventUseCase(
+            IOrderRepository orderRepository,
+            ILogger<OrderEventUseCase> logger,
+            IOrderProducer orderProducer)
+        {
+            _orderRepository = orderRepository;
+            _logger = logger;
+            _orderProducer = orderProducer;
+        }
+
+
+        public async Task<Result> ExecuteAsync(OrderEntity entity, CancellationToken cancellationToken)
         {
             try
             {
                 var orderEnvelope = new OrderEnvelope
                 {
-                    Value = orderRequestModel
+                    Value = entity
                 };
 
-                await _orderRepository.CreateAsync(orderRequestModel);
+                await _orderRepository.CreateAsync(entity);
 
                 _logger.LogInformation("");
 
@@ -40,7 +49,7 @@ namespace delivery_order_services.Controllers.Order.UseCase
                     "An error occurred in method {MethodName}. Input:{@input}", 
                     nameof(ExecuteAsync), new
                     {
-                        orderRequestModel.ProductName
+                        entity.ProductName
                     });
 
                 return Result.Failed($"An error occurred in method: {nameof(ExecuteAsync)}");

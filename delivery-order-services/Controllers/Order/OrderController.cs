@@ -19,10 +19,9 @@ namespace delivery_order_services.Controllers.Order
 
         [HttpPost("create-order")]
         public async Task<ActionResult> PostCreateEventOrderAsync(
-                [FromBody] OrderRequestModel orderRequest
-            )
+                [FromBody] OrderRequestModel orderRequest, CancellationToken cancellationToken)
         {
-           var order = await _orderEventUseCase.ExecuteAsync(orderRequest.ToOrderEntity());
+           var order = await _orderEventUseCase.ExecuteAsync(orderRequest.ToOrderEntity(), cancellationToken);
 
             return order.IsSuccess
                 ? NoContent()

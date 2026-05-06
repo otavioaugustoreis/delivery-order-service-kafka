@@ -17,7 +17,8 @@ namespace delivery_order_services.ServicesCollectionExtensions
             services
                 .AddMongoDbExtensions(configuration)
                 .AddRepositoriesExtensions(configuration)
-                .AddUseCasesExtensions(configuration);
+                .AddUseCasesExtensions(configuration)
+                .AddProducers(configuration);
 
             return services;
         }

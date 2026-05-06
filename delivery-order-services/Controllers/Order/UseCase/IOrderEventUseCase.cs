@@ -5,6 +5,6 @@ namespace delivery_order_services.Controllers.Order.UseCase
 {
     public interface IOrderEventUseCase
     {
-        Task<Result> ExecuteAsync(OrderEntity orderRequestModel);
+        Task<Result> ExecuteAsync(OrderEntity entity, CancellationToken cancellationToken); 
     }
 }
