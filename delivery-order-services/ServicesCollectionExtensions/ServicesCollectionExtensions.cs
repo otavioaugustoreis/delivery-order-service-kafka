@@ -1,9 +1,11 @@
-﻿using delivery_order_services.Domain.Repositories;
+﻿using Confluent.Kafka;
+using delivery_order_services.Domain.Repositories;
 using delivery_order_services.Domain.Repositories.Configuration;
 using delivery_order_services.Domain.Repositories.Contracts;
 using delivery_order_services.Features.OrderController.UseCase;
 using delivery_order_services.Features.UserController.Contracts;
 using delivery_order_services.Features.UserController.UseCase;
+using delivery_order_services.Producer;
 
 namespace delivery_order_services.ServicesCollectionExtensions
 {
@@ -54,6 +56,8 @@ namespace delivery_order_services.ServicesCollectionExtensions
 
         public static IServiceCollection AddProducers(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IOrderProducer, OrderProducer>();
+
             return services;
         }
     }
