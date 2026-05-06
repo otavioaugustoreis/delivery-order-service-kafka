@@ -1,5 +1,6 @@
+
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
@@ -8,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["delivery-order-services/delivery-order-services.csproj", "delivery-order-services/"]
+COPY ["delivery-order-services.Domain/Domain.csproj", "delivery-order-services.Domain/"]
 RUN dotnet restore "./delivery-order-services/delivery-order-services.csproj"
 COPY . .
 WORKDIR "/src/delivery-order-services"
