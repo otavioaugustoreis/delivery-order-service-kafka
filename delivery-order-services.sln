@@ -5,7 +5,7 @@ VisualStudioVersion = 18.5.11716.220
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "delivery-order-services", "delivery-order-services\delivery-order-services.csproj", "{F017BA98-55C0-4AF8-8515-59C7D930FDB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "delivery-order-services.Notify", "delivery-order-services.Notify\delivery-order-services.Notify.csproj", "{515BC9C4-55C8-4A2E-9104-76E370279B10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "delivery-order-services.Worker", "delivery-order-services.Notify\delivery-order-services.Worker.csproj", "{515BC9C4-55C8-4A2E-9104-76E370279B10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "delivery-order-services.Domain\Domain.csproj", "{916A654E-9890-B7AD-A931-3371B496D84C}"
 EndProject
