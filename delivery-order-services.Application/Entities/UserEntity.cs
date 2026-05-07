@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 
 
-namespace delivery_order_services.Domain.Entities
+namespace delivery_order_services.Application.Entities
 {
     public class UserEntity
     {

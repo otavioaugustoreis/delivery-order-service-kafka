@@ -1,5 +1,6 @@
-﻿using Confluent.Kafka;
-using delivery_order_services.Domain.Entities;
+﻿
+using Confluent.Kafka;
+using delivery_order_services.Application.Entities;
 using System.Text.Json;
 
 namespace delivery_order_services.Notify.Features

@@ -1,4 +1,4 @@
-﻿namespace delivery_order_services.Domain.Entities.Enum
+﻿namespace delivery_order_services.Application.Entities.Enum
 {
     public enum OrderStatus
     {

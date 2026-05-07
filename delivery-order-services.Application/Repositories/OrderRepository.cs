@@ -1,9 +1,9 @@
-﻿using delivery_order_services.Domain.Entities;
-using delivery_order_services.Domain.Repositories.Configuration;
-using delivery_order_services.Domain.Repositories.Contracts;
+﻿using delivery_order_services.Application.Entities;
+using delivery_order_services.Application.Repositories.Configuration;
+using delivery_order_services.Application.Repositories.Contracts;
 using MongoDB.Driver;
 
-namespace delivery_order_services.Domain.Repositories
+namespace delivery_order_services.Application.Repositories
 {
     public class OrderRepository : IOrderRepository
     {

@@ -1,5 +1,5 @@
-﻿using delivery_order_services.Domain.Entities;
-using delivery_order_services.Domain.Shared;
+﻿using delivery_order_services.Application.Entities;
+using delivery_order_services.Application.Shared;
 
 namespace delivery_order_services.Producer
 {

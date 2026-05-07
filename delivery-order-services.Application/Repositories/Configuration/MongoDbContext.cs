@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace delivery_order_services.Domain.Repositories.Configuration
+namespace delivery_order_services.Application.Repositories.Configuration
 {
     public class MongoDbContext
     {

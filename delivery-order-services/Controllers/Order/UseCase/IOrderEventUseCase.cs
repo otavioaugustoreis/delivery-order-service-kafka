@@ -1,5 +1,5 @@
 ﻿using delivery_order_services.Commons.ResultPattern;
-using delivery_order_services.Domain.Entities;
+using delivery_order_services.Application.Entities;
 
 namespace delivery_order_services.Controllers.Order.UseCase
 {

@@ -1,8 +1,8 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using delivery_order_services.Domain.Entities.Enum;
+using delivery_order_services.Application.Entities.Enum;
 
-namespace delivery_order_services.Domain.Entities
+namespace delivery_order_services.Application.Entities
 {
     public class OrderEntity
     {

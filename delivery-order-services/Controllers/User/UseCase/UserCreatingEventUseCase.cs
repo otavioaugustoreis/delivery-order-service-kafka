@@ -1,8 +1,8 @@
 ﻿using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Controllers.User.Contracts;
 using delivery_order_services.Controllers.User.Model;
-using delivery_order_services.Domain.Entities;
-using delivery_order_services.Domain.Repositories.Contracts;
+using delivery_order_services.Application.Entities;
+using delivery_order_services.Application.Repositories.Contracts;
 
 
 namespace delivery_order_services.Controllers.User.UseCase

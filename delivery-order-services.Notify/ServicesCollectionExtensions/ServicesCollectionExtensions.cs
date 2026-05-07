@@ -1,6 +1,4 @@
-﻿using Confluent.Kafka;
-using delivery_order_services.Notify.Features;
-using System.Runtime.CompilerServices;
+﻿using delivery_order_services.Notify.Consumer.Config;
 
 namespace delivery_order_services.Notify.ServicesCollectionExtensions
 {

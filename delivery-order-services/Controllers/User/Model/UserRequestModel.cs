@@ -1,4 +1,4 @@
-﻿using delivery_order_services.Domain.Entities.Enum;
+﻿using delivery_order_services.Application.Entities.Enum;
 
 namespace delivery_order_services.Controllers.User.Model
 {

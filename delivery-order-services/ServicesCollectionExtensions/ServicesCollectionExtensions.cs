@@ -2,9 +2,9 @@
 using delivery_order_services.Controllers.Order.UseCase;
 using delivery_order_services.Controllers.User.Contracts;
 using delivery_order_services.Controllers.User.UseCase;
-using delivery_order_services.Domain.Repositories;
-using delivery_order_services.Domain.Repositories.Configuration;
-using delivery_order_services.Domain.Repositories.Contracts;
+using delivery_order_services.Application.Repositories;
+using delivery_order_services.Application.Repositories.Configuration;
+using delivery_order_services.Application.Repositories.Contracts;
 using delivery_order_services.Producer;
 
 namespace delivery_order_services.ServicesCollectionExtensions
@@ -51,9 +51,7 @@ namespace delivery_order_services.ServicesCollectionExtensions
         }
 
         public static IServiceCollection AddConsumers(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddWorkerConfig(configuration);
-            
+        {            
             return services;
         }
 

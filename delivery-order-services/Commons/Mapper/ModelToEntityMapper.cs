@@ -1,7 +1,7 @@
-﻿using delivery_order_services.Controllers.Order.Models;
+﻿using delivery_order_services.Application.Entities;
+using delivery_order_services.Controllers.Order.Models;
 using delivery_order_services.Controllers.User.Model;
-using delivery_order_services.Domain.Entities;
-using System.Runtime.CompilerServices;
+
 
 namespace delivery_order_services.Commons.Mapper
 {

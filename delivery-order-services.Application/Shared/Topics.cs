@@ -1,4 +1,4 @@
-﻿namespace delivery_order_services.Domain.Shared
+﻿namespace delivery_order_services.Application.Shared
 {
     public static class Topics
     {
