@@ -52,12 +52,17 @@ namespace delivery_order_services.ServicesCollectionExtensions
 
         public static IServiceCollection AddConsumers(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddWorkerConfig(configuration);
+            
             return services;
         }
 
         public static IServiceCollection AddProducers(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IOrderProducer, OrderProducer>();
+
+            services.Configure<ProducerConfig>(
+                configuration.GetSection(nameof(ProducerConfig)));
 
             return services;
         }

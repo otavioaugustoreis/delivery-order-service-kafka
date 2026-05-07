@@ -23,7 +23,6 @@ namespace delivery_order_services.Controllers.Order.UseCase
             _orderProducer = orderProducer;
         }
 
-
         public async Task<Result> ExecuteAsync(OrderEntity entity, CancellationToken cancellationToken)
         {
             try
