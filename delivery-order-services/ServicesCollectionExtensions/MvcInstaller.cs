@@ -18,19 +18,6 @@ namespace delivery_order_services.ServicesCollectionExtensions
 
             services.AddControllers();
 
-            services.AddVersionedApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-
-            services.AddApiVersioning(options =>
-            {
-                options.ReportApiVersions = true;
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-            });
-
             services.AddAllExtensions(configuration);
 
             return services;

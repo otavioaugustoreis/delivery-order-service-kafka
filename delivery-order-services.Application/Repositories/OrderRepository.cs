@@ -15,7 +15,11 @@ namespace delivery_order_services.Application.Repositories
         }
 
         public async Task CreateAsync(OrderEntity orderEntity, CancellationToken cancellationToken)
-             => await _collection.InsertOneAsync(orderEntity, cancellationToken: cancellationToken);
+        {
+            orderEntity.OrderCreated();
+
+            await _collection.InsertOneAsync(orderEntity, cancellationToken: cancellationToken);
+        }
 
         public async Task<List<OrderEntity>> GetAllAsync(CancellationToken cancellationToken)
             => await _collection.Find(_ => true).ToListAsync(cancellationToken);

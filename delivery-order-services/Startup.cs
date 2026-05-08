@@ -14,7 +14,7 @@ namespace delivery_order_services
             services.InstallServices(Configuration);
         }
 
-        public void Configure(IApplicationBuilder app, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app)
         {  
             app
                 .UseDefaultLocalization()

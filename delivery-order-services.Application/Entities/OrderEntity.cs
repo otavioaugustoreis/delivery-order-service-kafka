@@ -28,7 +28,7 @@ namespace delivery_order_services.Application.Entities
 
         public void OrderDelivered()
         {
-            OrderStatus = delivery_order_services.Application.Entities.Enum.OrderStatus.DELIVERED.ToString();
+            this.OrderStatus = delivery_order_services.Application.Entities.Enum.OrderStatus.DELIVERED.ToString();
         }
     }
 }

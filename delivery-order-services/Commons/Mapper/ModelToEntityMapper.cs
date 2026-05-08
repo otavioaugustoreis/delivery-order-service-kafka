@@ -1,6 +1,7 @@
 ﻿using delivery_order_services.Application.Entities;
 using delivery_order_services.Controllers.Order.Models;
 using delivery_order_services.Controllers.User.Model;
+using System.Runtime.CompilerServices;
 
 
 namespace delivery_order_services.Commons.Mapper
@@ -22,7 +23,6 @@ namespace delivery_order_services.Commons.Mapper
             return new OrderEntity
             {
                 ProductName = orderModel.ProductName,
-                OrderStatus = orderModel.OrderStatus.ToString(),
                 ClientId = orderModel.Client,
             };
         }
