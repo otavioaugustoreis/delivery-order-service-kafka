@@ -1,7 +1,6 @@
-﻿using Confluent.Kafka;
-using delivery_order_services.Commons.ResultPattern;
-using delivery_order_services.Application.Entities;
+﻿using delivery_order_services.Application.Entities;
 using delivery_order_services.Application.Repositories.Contracts;
+using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Producer;
 
 
@@ -32,7 +31,7 @@ namespace delivery_order_services.Controllers.Order.UseCase
                     Value = entity
                 };
 
-                await _orderRepository.CreateAsync(entity);
+                await _orderRepository.CreateAsync(entity, cancellationToken);
 
                 _logger.LogInformation("");
 
@@ -54,5 +53,25 @@ namespace delivery_order_services.Controllers.Order.UseCase
                 return Result.Failed($"An error occurred in method: {nameof(ExecuteAsync)}");
             }
         }
-    }
+
+		public async Task<Result<List<OrderEntity>>> GetAllAsync(CancellationToken cancellationToken)
+		{
+			try
+			{
+				var result = await _orderRepository.GetAllAsync(cancellationToken);
+				return Result<List<OrderEntity>>.Success(result);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "[{Type}] An error occurred. Input: {@Input}",
+					nameof(OrderEventUseCase),
+					new
+					{
+						Method = nameof(GetAllAsync)
+					});
+
+				return Result<List<OrderEntity>>.Failed($"An error occurred in the class {nameof(OrderEventUseCase)}");
+			}
+		}
+	}
 }

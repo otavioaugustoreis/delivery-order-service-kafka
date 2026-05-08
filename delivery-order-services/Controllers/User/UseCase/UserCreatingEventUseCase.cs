@@ -21,14 +21,14 @@ namespace delivery_order_services.Controllers.User.UseCase
         {
             try
             {
-                 await userRepository.CreateAsync(
-                      new()
-                      {
-                          Name = userRequest.Name,
-                          Email = userRequest.Email,
-                          UserType = UserRequestModel.GetUserType(userRequest.UserType)
-                      }, cancellationToken
-                    );
+                var userEntity = new UserEntity()
+                {
+                    Name = userRequest.Name,
+                    Email = userRequest.Email,
+                    UserType = UserRequestModel.GetUserType(userRequest.UserType)
+                };
+
+				await userRepository.CreateAsync(userEntity,cancellationToken);
 
                 var userModel = new UserResponseModel(
                     userRequest.Name,
@@ -73,4 +73,3 @@ namespace delivery_order_services.Controllers.User.UseCase
         }
     }
 }
-//Feature a criar -> Criar Produção dellll

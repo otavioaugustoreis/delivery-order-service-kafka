@@ -16,6 +16,13 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
 
         public async Task ProduceAsync(TEnvelope envelope, CancellationToken cancellationToken)
         {
+
+            _logger.LogInformation("Starting message production. Input:{@input}",
+                   new
+                   {
+                       EnvelopeValue = envelope.Value
+                   });
+
             try
             {
                 var producerConfig = new ProducerConfig

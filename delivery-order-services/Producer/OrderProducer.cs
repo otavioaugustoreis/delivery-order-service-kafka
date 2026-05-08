@@ -19,20 +19,7 @@ namespace delivery_order_services.Producer
         {
             try
             {
-                _logger.LogInformation("Starting message production. Input:{@input}",
-                    new
-                    {
-                        EnvelopeValue = envelope.Value
-                    });
-
                 await _producer.ProduceAsync(envelope, cancellationToken);
-
-                _logger.LogInformation("Kafka message produced. Input:{@input}",
-                    new
-                    {
-                        EnvelopeValue = envelope.Value
-                    });
-
             }
             catch(Exception ex)
             {

@@ -27,5 +27,16 @@ namespace delivery_order_services.Controllers.Order
                 ? NoContent()
                 : BadRequest(order.ErrorMessage);
         }
+
+        [HttpGet("get-all-orders")]
+        public async Task<ActionResult> GetAllOrders(CancellationToken cancellationToken)
+        {
+                        
+            var result = await _orderEventUseCase.GetAllAsync(cancellationToken);
+            
+            return result.IsSuccess
+                ? Ok(result.Content)
+                : BadRequest(result.ErrorMessage);
+        }
     }
 }

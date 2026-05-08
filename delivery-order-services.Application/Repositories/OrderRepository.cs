@@ -14,13 +14,13 @@ namespace delivery_order_services.Application.Repositories
             _collection = context.GetCollection<OrderEntity>("orders");
         }
 
-        public async Task CreateAsync(OrderEntity orderEntity)
-             => await _collection.InsertOneAsync(orderEntity);
+        public async Task CreateAsync(OrderEntity orderEntity, CancellationToken cancellationToken)
+             => await _collection.InsertOneAsync(orderEntity, cancellationToken: cancellationToken);
 
-        public async Task<List<OrderEntity>> GetAllAsync()
-            => await _collection.Find(_ => true).ToListAsync();
+        public async Task<List<OrderEntity>> GetAllAsync(CancellationToken cancellationToken)
+            => await _collection.Find(_ => true).ToListAsync(cancellationToken);
 
-        public async Task<OrderEntity?> GetByIdAsync(string id)
-             => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<OrderEntity?> GetByIdAsync(string id, CancellationToken cancellationToken)
+             => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
     }
 }

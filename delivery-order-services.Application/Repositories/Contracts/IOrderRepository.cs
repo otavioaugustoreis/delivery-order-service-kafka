@@ -4,10 +4,10 @@ namespace delivery_order_services.Application.Repositories.Contracts
 {
     public interface IOrderRepository
     {
-        Task<List<OrderEntity>> GetAllAsync();
+        Task<List<OrderEntity>> GetAllAsync(CancellationToken cancellationToken);
 
-        Task<OrderEntity?> GetByIdAsync(string id);
+        Task<OrderEntity?> GetByIdAsync(string id, CancellationToken cancellationToken);
 
-        Task CreateAsync(OrderEntity orderEntity);
+        Task CreateAsync(OrderEntity orderEntity, CancellationToken cancellationToken);
     }
 }
