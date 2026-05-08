@@ -1,37 +1,40 @@
 ﻿
 using Confluent.Kafka;
 using delivery_order_services.Application.Entities;
-using delivery_order_services.Application.Shared;
+using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
-namespace delivery_order_services.Notify.Features
+namespace delivery_order_services.Application.Shared.Abstractions.Consumer
 {
-    public class OrderCreatedConsumer : BackgroundService
+    public class ConsumerAbstractions : IConsumerAbstractions
     {
-        private readonly ILogger<OrderCreatedConsumer> _logger;
-        
-        public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger)
+
+        private readonly ILogger<ConsumerAbstractions> _logger;
+        private readonly string _orderTopicName;
+        private readonly string _kafkaBootstrapServers;
+        private readonly string _notifierConsumeGroupName;
+
+        public ConsumerAbstractions(ILogger<ConsumerAbstractions> logger)
         {
             _logger = logger;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public async  Task ExecuteAsync(CancellationToken cancellationToken)
         {
-
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Order notifier running at: {time}", DateTimeOffset.Now);
 
                 var config = new ConsumerConfig
                 {
-                    BootstrapServers = "localhost:9092",
-                    GroupId = "notifier-consumer-group",
+                    BootstrapServers = _kafkaBootstrapServers,
+                    GroupId = _notifierConsumeGroupName,
                     AutoOffsetReset = AutoOffsetReset.Earliest
                 };
 
                 using (var consumer = new ConsumerBuilder<Ignore, string>(config).Build())
                 {
-                    consumer.Subscribe(Topics.OrderTopic);
+                    consumer.Subscribe(_orderTopicName);
 
                     CancellationTokenSource cts = new CancellationTokenSource();
                     Console.CancelKeyPress += (_, e) => {
@@ -45,7 +48,7 @@ namespace delivery_order_services.Notify.Features
                         {
                             try
                             {
-                                var consumeResult = consumer.Consume(cts.Token);
+                                var consumeResult = consumer.Consume(cancellationToken);
 
                                 var order = JsonSerializer.Deserialize<OrderEntity>(consumeResult.Message.Value);
 

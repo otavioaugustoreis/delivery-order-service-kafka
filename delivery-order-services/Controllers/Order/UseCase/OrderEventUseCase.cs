@@ -36,7 +36,7 @@ namespace delivery_order_services.Controllers.Order.UseCase
 
                 _logger.LogInformation("");
 
-                await _orderProducer.HandleAsync(orderEnvelope);
+                await _orderProducer.HandleAsync(orderEnvelope, cancellationToken);
 
                 _logger.LogInformation("");
 

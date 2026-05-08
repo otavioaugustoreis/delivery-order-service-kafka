@@ -1,4 +1,4 @@
-﻿using delivery_order_services.Application.Shared.Abstractions;
+﻿using delivery_order_services.Application.Shared.Abstractions.Producer;
 
 namespace delivery_order_services.Producer
 {

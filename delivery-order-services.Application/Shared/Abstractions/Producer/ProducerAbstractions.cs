@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
-namespace delivery_order_services.Application.Shared.Abstractions
+namespace delivery_order_services.Application.Shared.Abstractions.Producer
 {
     public class ProducerAbstractions : IProducerAbstractions
     {

@@ -1,17 +1,16 @@
-﻿using Confluent.Kafka;
-using delivery_order_services.Controllers.Order.UseCase;
+﻿using delivery_order_services.Controllers.Order.UseCase;
 using delivery_order_services.Controllers.User.Contracts;
 using delivery_order_services.Controllers.User.UseCase;
 using delivery_order_services.Application.Repositories;
 using delivery_order_services.Application.Repositories.Configuration;
 using delivery_order_services.Application.Repositories.Contracts;
 using delivery_order_services.Producer;
+using delivery_order_services.Application.Shared.Abstractions.Producer;
 
 namespace delivery_order_services.ServicesCollectionExtensions
 {
     public static class ServicesCollectionExtensions
     {
-
         public static IServiceCollection AddAllExtensions(this IServiceCollection services, IConfiguration configuration)
         {
             services
@@ -50,17 +49,13 @@ namespace delivery_order_services.ServicesCollectionExtensions
             return services;
         }
 
-        public static IServiceCollection AddConsumers(this IServiceCollection services, IConfiguration configuration)
-        {            
-            return services;
-        }
-
         public static IServiceCollection AddProducers(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IProducerAbstractions, ProducerAbstractions>();
             services.AddScoped<IOrderProducer, OrderProducer>();
 
-            services.Configure<ProducerConfig>(
-                configuration.GetSection(nameof(ProducerConfig)));
+            services.Configure<ProducerConfiguration>(
+                configuration.GetSection(nameof(ProducerConfiguration)));
 
             return services;
         }

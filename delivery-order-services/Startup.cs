@@ -16,22 +16,17 @@ namespace delivery_order_services
 
         public void Configure(IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {  
-            app.UseDefaultLocalization();
-            
-            app.UseSwagger();
-            
-            app.UseSwaggerUI();
-            
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app
+                .UseDefaultLocalization()
+                .UseSwagger()
+                .UseSwaggerUI()
+                .UseHttpsRedirection()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
         }
     }
 }

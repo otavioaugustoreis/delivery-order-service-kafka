@@ -1,4 +1,4 @@
-﻿namespace delivery_order_services.Application.Shared.Abstractions
+﻿namespace delivery_order_services.Application.Shared.Abstractions.Producer
 {
     public interface IProducerAbstractions
     {

@@ -1,4 +1,3 @@
-using delivery_order_services.Notify;
 using delivery_order_services.Notify.Features;
 
 public class Program
@@ -12,6 +11,7 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
+
                 services.AddHostedService<OrderCreatedConsumer>();
             });
 }
