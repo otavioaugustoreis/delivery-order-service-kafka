@@ -1,59 +1,50 @@
-﻿
-
-using Confluent.Kafka;
-using System.Text.Json;
+﻿using delivery_order_services.Application.Shared.Abstractions;
 
 namespace delivery_order_services.Producer
 {
     public class OrderProducer : IOrderProducer
     {
         private readonly ILogger<OrderProducer> _logger;
+        private readonly IProducerAbstractions _producer;
 
-        private readonly ProducerConfig _producerConfig;
-
-        public OrderProducer(ILogger<OrderProducer> logger, IConfiguration configuration)
+        public OrderProducer(
+            ILogger<OrderProducer> logger,
+            IProducerAbstractions producer)
         {
             _logger = logger;
-            _producerConfig = configuration.GetSection("ProducerConfig").Get<ProducerConfig>()
-                ?? throw new InvalidOperationException("Missing ProducerConfig configuration.");
+            _producer = producer;
         }
 
-        public async Task HandleAsync(OrderEnvelope envelope)
+        public async Task HandleAsync(OrderEnvelope envelope, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Starting message production. Input:{@input}",
+                    new
+                    {
+                        EnvelopeValue = envelope.Value
+                    });
 
+                await _producer.ProduceAsync(envelope, cancellationToken);
 
-                string orderConvertedToJson = JsonSerializer.Serialize(envelope.Value);
-
-                using (var producer = new ProducerBuilder<Null, string>(_producerConfig).Build())
-                {
-                    var deliveryReport = await producer.ProduceAsync(
-                        envelope.Topic,
-                        new Message<Null, string> 
-                        { 
-                            Value = orderConvertedToJson
-                        });
-
-                    _logger.LogInformation(
-                        "Kafka message produced. Topic: {Topic}; Partition: {Partition}; Offset: {Offset}",
-                        deliveryReport.Topic,
-                        deliveryReport.Partition.Value,
-                        deliveryReport.Offset.Value);
-                }
+                _logger.LogInformation("Kafka message produced. Input:{@input}",
+                    new
+                    {
+                        EnvelopeValue = envelope.Value
+                    });
 
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 _logger.LogError(ex,
-                    "An error occurred in method {MethodName}. Input:{@input}",
+                    "An error occurred in Kafka message production.  Method: {MethodName} Input:{@input}",
                     nameof(HandleAsync),
                     new
                     {
-                        envelope.Value
+                        EnvelopeValue = envelope.Value,
                     });
 
-                throw;
+                throw new(ex.Message);
             }
         }
     }

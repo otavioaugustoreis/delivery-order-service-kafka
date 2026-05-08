@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace delivery_order_services.Application.Shared.Abstractions
 {
-    internal class KafkaAbstractions
+    internal class ProducerSectionConfig
     {
     }
 }
