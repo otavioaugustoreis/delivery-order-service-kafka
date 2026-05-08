@@ -20,5 +20,15 @@ namespace delivery_order_services.Application.Entities
         public string ClientId{ get; set; } = string.Empty;
 
         public string GetOrderStatus(OrderStatus orderStatus) => orderStatus.ToString();
+
+        public void OrderCreated()
+        {
+            OrderStatus = delivery_order_services.Application.Entities.Enum.OrderStatus.CREATED.ToString();
+        }
+
+        public void OrderDelivered()
+        {
+            OrderStatus = delivery_order_services.Application.Entities.Enum.OrderStatus.DELIVERED.ToString();
+        }
     }
 }

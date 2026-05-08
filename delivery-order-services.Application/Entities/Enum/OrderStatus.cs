@@ -1,6 +1,6 @@
 ﻿namespace delivery_order_services.Application.Entities.Enum
 {
-    public enum OrderStatus
+    public enum OrderStatus : byte
     {
         CREATED,
         DELIVERED
