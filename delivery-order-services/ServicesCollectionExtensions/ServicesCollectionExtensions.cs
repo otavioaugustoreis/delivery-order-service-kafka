@@ -1,5 +1,4 @@
 ﻿using delivery_order_services.Controllers.Order.UseCase;
-using delivery_order_services.Controllers.User.Contracts;
 using delivery_order_services.Controllers.User.UseCase;
 using delivery_order_services.Application.Repositories;
 using delivery_order_services.Application.Repositories.Configuration;
@@ -44,7 +43,7 @@ namespace delivery_order_services.ServicesCollectionExtensions
         public static IServiceCollection AddUseCasesExtensions(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IOrderEventUseCase, OrderEventUseCase>();
-            services.AddScoped<IUserCreatingEventUseCase, UserCreatingEventUseCase>();
+            services.AddScoped<IUserUseCase, UserUseCase>();
 
             return services;
         }

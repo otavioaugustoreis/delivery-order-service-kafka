@@ -28,7 +28,7 @@ namespace delivery_order_services.Controllers.Order
                 : BadRequest(order.ErrorMessage);
         }
 
-        //Arrumar nome da rota seguindo os patterns
+        //Arrumar nome da rota seguindo o RESTFULL!
         [HttpGet("get-all-orders")]
         public async Task<ActionResult> GetAllOrders(CancellationToken cancellationToken)
         {

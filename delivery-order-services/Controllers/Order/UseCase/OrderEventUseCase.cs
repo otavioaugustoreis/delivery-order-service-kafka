@@ -3,7 +3,6 @@ using delivery_order_services.Application.Repositories.Contracts;
 using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Producer;
 
-
 namespace delivery_order_services.Controllers.Order.UseCase
 {
     public class OrderEventUseCase : IOrderEventUseCase
@@ -53,7 +52,6 @@ namespace delivery_order_services.Controllers.Order.UseCase
                 return Result.Failed($"An error occurred in method: {nameof(ExecuteAsync)}");
             }
         }
-
 		public async Task<Result<List<OrderEntity>>> GetAllAsync(CancellationToken cancellationToken)
 		{
 			try
@@ -63,12 +61,8 @@ namespace delivery_order_services.Controllers.Order.UseCase
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "[{Type}] An error occurred. Input: {@Input}",
-					nameof(OrderEventUseCase),
-					new
-					{
-						Method = nameof(GetAllAsync)
-					});
+				_logger.LogError(ex, "[{Type}] An error occurred.",
+					nameof(OrderEventUseCase));
 
 				return Result<List<OrderEntity>>.Failed($"An error occurred in the class {nameof(OrderEventUseCase)}");
 			}

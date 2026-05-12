@@ -1,5 +1,6 @@
 ﻿using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace delivery_order_services.Application.Shared.Abstractions.Producer
@@ -8,10 +9,14 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
     {
 
         private readonly ILogger<ProducerAbstractions> _logger;
+        private readonly ProducerConfiguration _producerConfiguration;
 
-        public ProducerAbstractions(ILogger<ProducerAbstractions> logger)
+        public ProducerAbstractions(
+            ILogger<ProducerAbstractions> logger, 
+            IOptions<ProducerConfiguration> producerConfiguration)
         {
             _logger = logger;
+            _producerConfiguration = producerConfiguration.Value;
         }
 
         public async Task ProduceAsync(TEnvelope envelope, CancellationToken cancellationToken)
@@ -27,7 +32,7 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
             {
                 var producerConfig = new ProducerConfig
                 {
-                    BootstrapServers = "localhost:9092"
+                    BootstrapServers = _producerConfiguration.BootstrapServers
                 };
 
                 string orderConvertedToJson = JsonSerializer.Serialize(envelope.Value);
@@ -42,11 +47,15 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
                         }, cancellationToken);
 
                     _logger.LogInformation(
-                        "Kafka message produced. Topic: {Topic}; Partition: {Partition}; Offset: {Offset}",
-                        deliveryReport.Topic,
-                        deliveryReport.Partition.Value,
-                        deliveryReport.Offset.Value);
+                           "Kafka message produced. Input{@input}",
+                           new
+                           {
+                               Topic = deliveryReport.Topic,
+                               Partition = deliveryReport.Partition.Value,
+                               Offset = deliveryReport.Offset.Value
+                           });
                 }
+
             }
             catch (Exception ex) 
             {
@@ -56,7 +65,7 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
                     {
                         EnvelopeValue = envelope.Value,
                     });
-
+                //Resolver! Acho que não precisamos lançar uma exceção aqui, mas isso depende do caso de uso
                 throw new ();
             }
         }

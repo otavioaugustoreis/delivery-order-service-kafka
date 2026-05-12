@@ -1,6 +1,5 @@
-﻿using delivery_order_services.Commons.Mapper;
-using delivery_order_services.Controllers.User.Contracts;
-using delivery_order_services.Controllers.User.Model;
+﻿using delivery_order_services.Controllers.User.Model;
+using delivery_order_services.Controllers.User.UseCase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace delivery_order_services.Controllers.User
@@ -9,9 +8,9 @@ namespace delivery_order_services.Controllers.User
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserCreatingEventUseCase _usecase;
+        private readonly IUserUseCase _usecase;
 
-        public UserController(IUserCreatingEventUseCase userIUserServiceUseCase)
+        public UserController(IUserUseCase userIUserServiceUseCase)
         {
             _usecase = userIUserServiceUseCase;
         }
@@ -22,9 +21,11 @@ namespace delivery_order_services.Controllers.User
                 CancellationToken cancellationToken
             )
         {
-            var userCreated = await _usecase.ExecuteAsync(userRequest, cancellationToken);
+            var result = await _usecase.ExecuteAsync(userRequest, cancellationToken);
 
-            return Ok(MessageCommons.USUARIO_CADASTRADO);
+            return result.IsSuccess 
+                ? NoContent() 
+                : BadRequest(result.ErrorMessage!);
         }
 
         [HttpGet]

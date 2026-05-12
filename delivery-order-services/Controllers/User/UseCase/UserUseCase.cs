@@ -1,5 +1,4 @@
 ﻿using delivery_order_services.Commons.ResultPattern;
-using delivery_order_services.Controllers.User.Contracts;
 using delivery_order_services.Controllers.User.Model;
 using delivery_order_services.Application.Entities;
 using delivery_order_services.Application.Repositories.Contracts;
@@ -7,13 +6,13 @@ using delivery_order_services.Application.Repositories.Contracts;
 
 namespace delivery_order_services.Controllers.User.UseCase
 {
-    public class UserCreatingEventUseCase(
+    public class UserUseCase(
         IUserRepository _userRepository,
-        ILogger<UserCreatingEventUseCase> _logger
-        ) : IUserCreatingEventUseCase
+        ILogger<UserUseCase> _logger
+        ) : IUserUseCase
     {
 
-        private readonly ILogger<UserCreatingEventUseCase> logger = _logger;
+        private readonly ILogger<UserUseCase> logger = _logger;
         private readonly IUserRepository userRepository = _userRepository;
 
 
@@ -40,13 +39,13 @@ namespace delivery_order_services.Controllers.User.UseCase
             catch (Exception ex)
             {
                 _logger.LogError(ex,"[{Type}] An error occurred. Input: {@Input}",
-                    nameof(UserCreatingEventUseCase),
+                    nameof(UserUseCase),
                     new
                     {
                         Method = nameof(ExecuteAsync)
                     });
 
-                return Result<UserResponseModel>.Failed($"An error occurred in the class {nameof(UserCreatingEventUseCase)}");
+                return Result<UserResponseModel>.Failed($"An error occurred in the class {nameof(UserUseCase)}");
             }
         }
 
@@ -61,14 +60,14 @@ namespace delivery_order_services.Controllers.User.UseCase
             catch (Exception ex)
             {
                 _logger.LogError(ex, "[{Type}] An error occurred. Input: {@Input}",
-                    nameof(UserCreatingEventUseCase),
+                    nameof(UserUseCase),
                     new
                     {
                         Method = nameof(GetAllAsync)
 
                     });
 
-                return Result<List<UserEntity>>.Failed($"An error occurred in the class {nameof(UserCreatingEventUseCase)}");
+                return Result<List<UserEntity>>.Failed($"An error occurred in the class {nameof(UserUseCase)}");
             }   
         }
     }
