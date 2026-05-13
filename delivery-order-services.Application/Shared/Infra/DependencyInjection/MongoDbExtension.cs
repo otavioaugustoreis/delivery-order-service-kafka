@@ -1,6 +1,4 @@
-﻿
-
-using delivery_order_services.Application.Shared.Infra.Configuration;
+﻿using delivery_order_services.Application.Shared.Infra.Configuration;
 using delivery_order_services.Application.Shared.Infra.Repositories.Order;
 using delivery_order_services.Application.Shared.Infra.Repositories.User;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +24,7 @@ namespace delivery_order_services.Application.Shared.Infra.DependencyInjection
                 return new MongoClient(clientSettings);
             });
 
-            services.AddHostedService<MongoIndexesHostedService>();
+            services.AddHostedService<OrderIndexesHostedService>();
 
             services.AddUserCollection();
             services.AddOrderCollection();

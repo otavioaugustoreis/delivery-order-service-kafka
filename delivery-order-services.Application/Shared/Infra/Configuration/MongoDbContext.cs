@@ -1,6 +1,5 @@
 ﻿using MongoDB.Driver;
 
-
 namespace delivery_order_services.Application.Shared.Infra.Configuration
 {
     public class MongoDbContext<T> where T : class
@@ -12,7 +11,7 @@ namespace delivery_order_services.Application.Shared.Infra.Configuration
             _client = mongoClient;
         }
 
-        public IMongoCollection<T> GetCollection<T>(
+        public IMongoCollection<T> GetCollection(
             string databaseName, 
             string colletionName,
             MongoDatabaseSettings settings = null!,

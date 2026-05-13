@@ -1,19 +1,22 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using delivery_order_services.Application.Shared.Infra.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace delivery_order_services.Application.Shared.Infra.Configuration
+namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
 {
-    public sealed class MongoIndexesHostedService : IHostedService
+    public sealed class OrderIndexesHostedService : MongoDbContext<Domain.Order>, IHostedService
     {
         private readonly IMongoCollection<Domain.Order> _ordersCollection;
-        private readonly ILogger<MongoIndexesHostedService> _logger;
+        private readonly ILogger<OrderIndexesHostedService> _logger;
 
-        public MongoIndexesHostedService(
-            IMongoCollection<Domain.Order> ordersCollection,
-            ILogger<MongoIndexesHostedService> logger)
+        public OrderIndexesHostedService(
+            IMongoClient client,
+            ILogger<OrderIndexesHostedService> logger,
+            IOptions<MongoDbConfiguration> configuration) : base(client)
         {
-            _ordersCollection = ordersCollection;
+            _ordersCollection =  GetCollection(configuration.Value.DatabaseName, nameof(Domain.Order));
             _logger = logger;
         }
 

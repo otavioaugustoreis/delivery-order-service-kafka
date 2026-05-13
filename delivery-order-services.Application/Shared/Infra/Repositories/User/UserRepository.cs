@@ -1,15 +1,18 @@
-﻿using MongoDB.Driver;
-
+﻿using delivery_order_services.Application.Shared.Infra.Configuration;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace delivery_order_services.Application.Shared.Infra.Repositories.User
 {
-    public sealed class UserRepository : IUserRepository    
+    public sealed class UserRepository : MongoDbContext<Domain.User>, IUserRepository    
     {
         private readonly IMongoCollection<Domain.User> _collection;
 
-        public UserRepository(IMongoCollection<Domain.User> collection)
+        public UserRepository(
+            IMongoClient client, 
+            IOptions<MongoDbConfiguration> configuration) : base(client)
         {
-            _collection = collection;
+            _collection = GetCollection(configuration.Value.DatabaseName, nameof(Domain.Order));
         }
 
         public async Task<List<Domain.User>> GetAllAsync()

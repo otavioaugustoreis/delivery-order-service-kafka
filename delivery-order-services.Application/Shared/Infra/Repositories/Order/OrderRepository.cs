@@ -1,14 +1,18 @@
-﻿using MongoDB.Driver;
+﻿using delivery_order_services.Application.Shared.Infra.Configuration;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository : MongoDbContext<Domain.Order>, IOrderRepository
     {
         private readonly IMongoCollection<Domain.Order> _collection;
 
-        public OrderRepository(IMongoCollection<Domain.Order> collection)
+        public OrderRepository(
+            IMongoClient client, 
+            IOptions<MongoDbConfiguration> configuration) : base(client)
         {
-            _collection = collection;
+            _collection = GetCollection(configuration.Value.DatabaseName, nameof(Domain.Order));
         }
 
         public async Task<bool> CreateAsync(Domain.Order orderEntity, CancellationToken cancellationToken)
