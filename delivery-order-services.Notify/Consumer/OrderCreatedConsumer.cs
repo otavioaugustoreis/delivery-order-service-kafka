@@ -1,6 +1,6 @@
 ﻿
 using Confluent.Kafka;
-using delivery_order_services.Application.Entities;
+using delivery_order_services.Application.Domain;
 using delivery_order_services.Application.Shared;
 using System.Text.Json;
 
@@ -47,7 +47,7 @@ namespace delivery_order_services.Notify.Features
                             {
                                 var consumeResult = consumer.Consume(cts.Token);
 
-                                var order = JsonSerializer.Deserialize<OrderEntity>(consumeResult.Message.Value);
+                                var order = JsonSerializer.Deserialize<Order>(consumeResult.Message.Value);
 
                                 Console.WriteLine($"Mensagem recebida: {consumeResult.Message.Value}");
                             }

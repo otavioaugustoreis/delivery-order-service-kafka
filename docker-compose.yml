@@ -1,28 +1,14 @@
 version: '3.4'
 
 services:
-  delivery-order-services:
-    image: ${DOCKER_REGISTRY-}deliveryorderservices
-    build:
-      context: .
-      dockerfile: delivery-order-services/Dockerfile
-    environment:
-      - ConnectionStrings__MongoDb=mongodb://mongo:27017/deliverydb
-      - ProducerConfig__BootstrapServers=kafka:29092
-      - ConsumerConfig__BootstrapServers=kafka:29092
-    depends_on:
-      - mongo
-      - kafka   
-    ports:
-      - "5000:5000" 
-
   mongo:
-    image: mongo:6.0
+    image: mongo:7
     container_name: mongo
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      - F:/delivery-order-service-kafka/init-mongo:/docker-entrypoint-initdb.d:ro
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.1

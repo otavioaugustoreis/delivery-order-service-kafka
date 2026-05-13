@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "delivery-order-se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "delivery-order-services.Application\Application.csproj", "{221C57CA-BB55-7FD9-9BBD-D7757304A895}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71AD0399-6306-464B-878F-AF795A022862}"
+	ProjectSection(SolutionItems) = preProject
+		init-mongo\create-index.js = init-mongo\create-index.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +41,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A} = {71AD0399-6306-464B-878F-AF795A022862}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80417B7D-6FA0-4BFE-9DA2-C1BB8B73BD51}

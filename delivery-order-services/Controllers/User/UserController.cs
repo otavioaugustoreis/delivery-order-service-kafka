@@ -24,7 +24,7 @@ namespace delivery_order_services.Controllers.User
             var result = await _usecase.ExecuteAsync(userRequest, cancellationToken);
 
             return result.IsSuccess 
-                ? NoContent() 
+                ? NoContent()
                 : BadRequest(result.ErrorMessage!);
         }
 

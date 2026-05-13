@@ -1,10 +1,9 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
-
-namespace delivery_order_services.Application.Entities
+namespace delivery_order_services.Application.Domain
 {
-    public class UserEntity
+    public class User
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -18,5 +17,10 @@ namespace delivery_order_services.Application.Entities
 
         [BsonElement("UserType")]
         public string UserType { get; set; } = string.Empty;
+
+        public void SetClient() 
+        {  
+            UserType =  Enum.UserType.CLIENT.ToString();
+        }
     }
 }

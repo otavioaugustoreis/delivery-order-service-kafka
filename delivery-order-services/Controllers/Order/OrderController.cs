@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace delivery_order_services.Controllers.Order
 {
-
     [Route("api/v1/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -19,9 +18,11 @@ namespace delivery_order_services.Controllers.Order
 
         [HttpPost("create-order")]
         public async Task<ActionResult> PostCreateEventOrderAsync(
-                [FromBody] OrderRequestModel orderRequest, CancellationToken cancellationToken)
+                [FromBody] OrderRequestModel orderRequest,
+                [FromHeader(Name = "Idempotency-Key")] string? idempotencyKey,
+                CancellationToken cancellationToken)
         {
-           var order = await _orderEventUseCase.ExecuteAsync(orderRequest.ToOrderEntity(), cancellationToken);
+           var order = await _orderEventUseCase.ExecuteAsync(orderRequest.ToOrderEntity(idempotencyKey), cancellationToken);
 
             return order.IsSuccess
                 ? NoContent()
@@ -30,7 +31,7 @@ namespace delivery_order_services.Controllers.Order
 
         //Arrumar nome da rota seguindo o RESTFULL!
         [HttpGet("get-all-orders")]
-        public async Task<ActionResult> GetAllOrders(CancellationToken cancellationToken)
+        public async Task<ActionResult> GetAllOrdersAsync(CancellationToken cancellationToken)
         {
                         
             var result = await _orderEventUseCase.GetAllAsync(cancellationToken);

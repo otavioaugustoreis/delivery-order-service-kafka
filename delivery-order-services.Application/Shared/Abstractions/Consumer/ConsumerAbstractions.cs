@@ -1,6 +1,6 @@
 ﻿
 using Confluent.Kafka;
-using delivery_order_services.Application.Entities;
+using delivery_order_services.Application.Domain;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
@@ -50,7 +50,7 @@ namespace delivery_order_services.Application.Shared.Abstractions.Consumer
                             {
                                 var consumeResult = consumer.Consume(cancellationToken);
 
-                                var order = JsonSerializer.Deserialize<OrderEntity>(consumeResult.Message.Value);
+                                var order = JsonSerializer.Deserialize<Order>(consumeResult.Message.Value);
 
                                 Console.WriteLine($"Mensagem recebida: {consumeResult.Message.Value}");
                             }

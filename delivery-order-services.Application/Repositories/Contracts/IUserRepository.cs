@@ -1,13 +1,13 @@
-﻿using delivery_order_services.Application.Entities;
+﻿using delivery_order_services.Application.Domain;
 
 namespace delivery_order_services.Application.Repositories.Contracts
 {
     public interface IUserRepository
     {
-         Task<List<UserEntity>> GetAllAsync();
+         Task<List<User>> GetAllAsync();
 
-         Task<UserEntity?> GetByIdAsync(string id, CancellationToken cancellationToken);
+         Task<User?> GetByIdAsync(string id, CancellationToken cancellationToken);
 
-         Task CreateAsync(UserEntity userEntity, CancellationToken cancellationToken); 
+         Task CreateAsync(User userEntity, CancellationToken cancellationToken); 
     }
 }

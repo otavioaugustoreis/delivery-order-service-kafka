@@ -1,13 +1,13 @@
-﻿using delivery_order_services.Application.Entities;
+﻿using delivery_order_services.Application.Domain;
 
 namespace delivery_order_services.Application.Repositories.Contracts
 {
     public interface IOrderRepository
     {
-        Task<List<OrderEntity>> GetAllAsync(CancellationToken cancellationToken);
+        Task<List<Order>> GetAllAsync(CancellationToken cancellationToken);
 
-        Task<OrderEntity?> GetByIdAsync(string id, CancellationToken cancellationToken);
+        Task<Order?> GetByIdAsync(string id, CancellationToken cancellationToken);
 
-        Task CreateAsync(OrderEntity orderEntity, CancellationToken cancellationToken);
+        Task<bool> CreateAsync(Order orderEntity, CancellationToken cancellationToken);
     }
 }

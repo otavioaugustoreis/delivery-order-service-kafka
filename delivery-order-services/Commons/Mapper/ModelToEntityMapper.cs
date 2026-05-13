@@ -1,29 +1,17 @@
-﻿using delivery_order_services.Application.Entities;
+﻿using delivery_order_services.Application.Domain;
 using delivery_order_services.Controllers.Order.Models;
-using delivery_order_services.Controllers.User.Model;
-using System.Runtime.CompilerServices;
-
 
 namespace delivery_order_services.Commons.Mapper
 {
     public static class ModelToEntityMapper
     {
-        public static UserEntity ToUserEntity(this UserRequestModel userModel)
+        public static Order ToOrderEntity(this OrderRequestModel orderModel, string idempotencyKey)
         {
-            return new UserEntity
-            {
-                Name = userModel.Name,
-                Email = userModel.Email,
-                UserType = userModel.UserType.ToString(),
-            };
-        }
-
-        public static OrderEntity ToOrderEntity(this OrderRequestModel orderModel)
-        {
-            return new OrderEntity
+            return new Order
             {
                 ProductName = orderModel.ProductName,
                 ClientId = orderModel.Client,
+                IdempotencyKey = idempotencyKey
             };
         }
     }

@@ -23,12 +23,16 @@ namespace delivery_order_services.ServicesCollectionExtensions
 
         public static IServiceCollection AddMongoDbExtensions(this IServiceCollection services, IConfiguration configuration)
         {
+            var mongoDbSettings = configuration.GetSection(nameof(MongoDbConfiguration)).Get<MongoDbConfiguration>();
+
             services.AddSingleton(sp =>
             new MongoDbContext(
-               configuration.GetConnectionString("MongoDb")!,
-                "MinhaBaseDeDados"
+               mongoDbSettings.ConnectionString,
+               mongoDbSettings.DatabaseName
              ));
-            
+
+            services.AddHostedService<MongoIndexesHostedService>();
+
             return services;
         }
 

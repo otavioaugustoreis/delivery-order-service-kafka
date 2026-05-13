@@ -1,10 +1,10 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using delivery_order_services.Application.Entities.Enum;
+using delivery_order_services.Application.Domain.Enum;
 
-namespace delivery_order_services.Application.Entities
+namespace delivery_order_services.Application.Domain
 {
-    public class OrderEntity
+    public class Order
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -19,16 +19,19 @@ namespace delivery_order_services.Application.Entities
         [BsonElement("ClientId")]
         public string ClientId{ get; set; } = string.Empty;
 
+        [BsonElement("IdempotencyKey")]
+        public string IdempotencyKey { get; set; } = string.Empty;
+
         public string GetOrderStatus(OrderStatus orderStatus) => orderStatus.ToString();
 
-        public void OrderCreated()
+        public void SetCreated()
         {
-            OrderStatus = delivery_order_services.Application.Entities.Enum.OrderStatus.CREATED.ToString();
+            OrderStatus = Enum.OrderStatus.CREATED.ToString();
         }
 
-        public void OrderDelivered()
+        public void SetDelivered()
         {
-            this.OrderStatus = delivery_order_services.Application.Entities.Enum.OrderStatus.DELIVERED.ToString();
+            OrderStatus = Enum.OrderStatus.DELIVERED.ToString();
         }
     }
 }

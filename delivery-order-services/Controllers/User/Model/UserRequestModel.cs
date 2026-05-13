@@ -1,9 +1,4 @@
-﻿using delivery_order_services.Application.Entities.Enum;
-
-namespace delivery_order_services.Controllers.User.Model
+﻿namespace delivery_order_services.Controllers.User.Model
 {
-    public record UserRequestModel(string Name, string Email ,UserType UserType)
-    {
-        public static string GetUserType(UserType userType) => userType.ToString();
-    };
+    public record UserRequestModel(string Name, string Email);
 }

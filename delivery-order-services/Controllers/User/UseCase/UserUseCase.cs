@@ -1,38 +1,33 @@
 ﻿using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Controllers.User.Model;
-using delivery_order_services.Application.Entities;
 using delivery_order_services.Application.Repositories.Contracts;
-
 
 namespace delivery_order_services.Controllers.User.UseCase
 {
     public class UserUseCase(
-        IUserRepository _userRepository,
-        ILogger<UserUseCase> _logger
+        IUserRepository userRepository,
+        ILogger<UserUseCase> logger
         ) : IUserUseCase
     {
 
-        private readonly ILogger<UserUseCase> logger = _logger;
-        private readonly IUserRepository userRepository = _userRepository;
-
+        private readonly ILogger<UserUseCase> _logger = logger;
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<Result<UserResponseModel>> ExecuteAsync(UserRequestModel userRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var userEntity = new UserEntity()
+                var userEntity = new Application.Entities.User()
                 {
                     Name = userRequest.Name,
                     Email = userRequest.Email,
-                    UserType = UserRequestModel.GetUserType(userRequest.UserType)
                 };
 
-				await userRepository.CreateAsync(userEntity,cancellationToken);
+                userEntity.SetClient();
 
-                var userModel = new UserResponseModel(
-                    userRequest.Name,
-                    userRequest.Email,
-                    userRequest.UserType);
+				await _userRepository.CreateAsync(userEntity,cancellationToken);
+
+                var userModel = userEntity.ToUserResponseModel();
 
                 return Result<UserResponseModel>.Success(userModel);
             }
@@ -48,14 +43,13 @@ namespace delivery_order_services.Controllers.User.UseCase
                 return Result<UserResponseModel>.Failed($"An error occurred in the class {nameof(UserUseCase)}");
             }
         }
-
-        public async Task<Result<List<UserEntity>>> GetAllAsync()
+        public async Task<Result<List<Application.Domain.User>>> GetAllAsync()
         {
             try
             {
-                var result = await userRepository.GetAllAsync();
+                var result = await _userRepository.GetAllAsync();
 
-                return Result<List<UserEntity>>.Success(result);
+                return Result<List<Application.Domain.User>>.Success(result);
             }
             catch (Exception ex)
             {
@@ -64,10 +58,9 @@ namespace delivery_order_services.Controllers.User.UseCase
                     new
                     {
                         Method = nameof(GetAllAsync)
-
                     });
 
-                return Result<List<UserEntity>>.Failed($"An error occurred in the class {nameof(UserUseCase)}");
+                return Result<List<Application.Domain.User>>.Failed($"An error occurred in the class {nameof(UserUseCase)}");
             }   
         }
     }
