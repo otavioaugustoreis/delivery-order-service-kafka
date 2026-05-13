@@ -1,7 +1,6 @@
-﻿using delivery_order_services.Application.Repositories.Contracts;
+﻿using delivery_order_services.Application.Shared.Infra.Repositories.Order;
 using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Producer;
-using delivery_order_services.Application.Domain;
 
 namespace delivery_order_services.Controllers.Order.UseCase
 {

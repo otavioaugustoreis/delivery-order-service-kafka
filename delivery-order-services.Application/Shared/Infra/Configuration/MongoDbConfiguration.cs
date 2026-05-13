@@ -1,4 +1,4 @@
-﻿namespace delivery_order_services.Application.Repositories.Configuration
+﻿namespace delivery_order_services.Application.Shared.Infra.Configuration
 {
     public class MongoDbConfiguration
     {

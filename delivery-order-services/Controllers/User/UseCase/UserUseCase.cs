@@ -1,6 +1,6 @@
 ﻿using delivery_order_services.Commons.ResultPattern;
 using delivery_order_services.Controllers.User.Model;
-using delivery_order_services.Application.Repositories.Contracts;
+using delivery_order_services.Application.Shared.Infra.Repositories.User;
 
 namespace delivery_order_services.Controllers.User.UseCase
 {
@@ -17,7 +17,7 @@ namespace delivery_order_services.Controllers.User.UseCase
         {
             try
             {
-                var userEntity = new Application.Entities.User()
+                var userEntity = new Application.Domain.User()
                 {
                     Name = userRequest.Name,
                     Email = userRequest.Email,

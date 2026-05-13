@@ -1,30 +1,27 @@
-﻿using delivery_order_services.Application.Domain;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
-namespace delivery_order_services.Application.Repositories.Configuration
+namespace delivery_order_services.Application.Shared.Infra.Configuration
 {
     public sealed class MongoIndexesHostedService : IHostedService
     {
-        private readonly MongoDbContext _mongoDbContext;
+        private readonly IMongoCollection<Domain.Order> _ordersCollection;
         private readonly ILogger<MongoIndexesHostedService> _logger;
 
         public MongoIndexesHostedService(
-            MongoDbContext mongoDbContext,
+            IMongoCollection<Domain.Order> ordersCollection,
             ILogger<MongoIndexesHostedService> logger)
         {
-            _mongoDbContext = mongoDbContext;
+            _ordersCollection = ordersCollection;
             _logger = logger;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var orders = _mongoDbContext.GetCollection<Order>("orders");
+            var indexKeys = Builders<Domain.Order>.IndexKeys.Ascending(x => x.IdempotencyKey);
 
-            var indexKeys = Builders<Order>.IndexKeys.Ascending(x => x.IdempotencyKey);
-
-            var indexModel = new CreateIndexModel<Order>(
+            var indexModel = new CreateIndexModel<Domain.Order>(
                 indexKeys,
                 new CreateIndexOptions
                 {
@@ -34,7 +31,7 @@ namespace delivery_order_services.Application.Repositories.Configuration
 
             try
             {
-                await orders.Indexes.CreateOneAsync(indexModel, cancellationToken: cancellationToken);
+                await _ordersCollection.Indexes.CreateOneAsync(indexModel, cancellationToken: cancellationToken);
 
                 _logger.LogInformation("[MongoIndexes] Índice criado/garantido: {IndexName}", "ux_orders_idempotencyKey");
             }
