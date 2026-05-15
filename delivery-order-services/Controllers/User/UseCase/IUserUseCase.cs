@@ -5,7 +5,7 @@ namespace delivery_order_services.Controllers.User.UseCase
 {
     public interface IUserUseCase
     {
-        Task<Result<UserResponseModel>> ExecuteAsync(UserRequestModel input, CancellationToken cancellationToken);
-        Task<Result<List<Application.Domain.User>>> GetAllAsync();
+        Task<Result> InsertOneAsync(UserRequestModel input, CancellationToken cancellationToken);
+        Task<Result<List<Application.Domain.User>>> FindAsync(CancellationToken cancellationToken);
     }
 }

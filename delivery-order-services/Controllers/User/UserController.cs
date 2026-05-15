@@ -21,7 +21,7 @@ namespace delivery_order_services.Controllers.User
                 CancellationToken cancellationToken
             )
         {
-            var result = await _usecase.ExecuteAsync(userRequest, cancellationToken);
+            var result = await _usecase.InsertOneAsync(userRequest, cancellationToken);
 
             return result.IsSuccess 
                 ? NoContent()
@@ -29,9 +29,9 @@ namespace delivery_order_services.Controllers.User
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllUsersAsync()
+        public async Task<ActionResult> GetAllUsersAsync(CancellationToken cancellationToken)
         {
-            var result = await _usecase.GetAllAsync();
+            var result = await _usecase.FindAsync(cancellationToken);
 
             return result.IsSuccess 
                 ? Ok(result.Content) 

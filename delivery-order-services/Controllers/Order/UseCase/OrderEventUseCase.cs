@@ -1,5 +1,6 @@
 ﻿using delivery_order_services.Application.Shared.Infra.Repositories.Order;
 using delivery_order_services.Commons.ResultPattern;
+using delivery_order_services.Controllers.Order.Models;
 using delivery_order_services.Producer;
 
 namespace delivery_order_services.Controllers.Order.UseCase
@@ -20,25 +21,26 @@ namespace delivery_order_services.Controllers.Order.UseCase
             _orderProducer = orderProducer;
         }
 
-        public async Task<Result> ExecuteAsync(Application.Domain.Order entity, CancellationToken cancellationToken)
+        public async Task<Result> InsertOneAsync(OrderRequestModel input, string idempotencyKey, CancellationToken cancellationToken)
         {
             try
             {
-                
+                var orderEntity = input.ToOrderEntity(idempotencyKey);
+
                 var orderEnvelope = new OrderEnvelope
                 {
-                    Value = entity
+                    Value = orderEntity
                 };
 
-                entity.SetCreated();
+                orderEntity.SetCreated();
 
-                await _orderRepository.CreateAsync(entity, cancellationToken);
+                await _orderRepository.InsertOneAsync(orderEntity, cancellationToken);
 
                 _logger.LogInformation("[{Type}] Order created successfully. Input:{@input}",
                     nameof(OrderEventUseCase),
                     new 
                     {
-                        Product = entity.ProductName
+                        Product = orderEntity.ProductName
                     });
 
                 await _orderProducer.HandleAsync(orderEnvelope, cancellationToken);
@@ -51,28 +53,29 @@ namespace delivery_order_services.Controllers.Order.UseCase
             {
                 _logger.LogError(ex,
                     "[{Type}] An error occurred. Input:{@input}", 
-                    nameof(ExecuteAsync),
+                    nameof(InsertOneAsync),
                     new
                     {
-                        entity.ProductName
+                        input.ProductName
                     });
 
-                return Result.Failed($"An error occurred in method: {nameof(ExecuteAsync)}");
+                return Result.Failed($"An error occurred in method: {nameof(InsertOneAsync)}");
             }
         }
-		public async Task<Result<List<Application.Domain.Order>>> GetAllAsync(CancellationToken cancellationToken)
+		public async Task<Result<List<Application.Domain.Order?>?>> FindByClientIdAsync(string clientId, CancellationToken cancellationToken)
 		{
 			try
 			{
-				var result = await _orderRepository.GetAllAsync(cancellationToken);
-				return Result<List<Application.Domain.Order>>.Success(result);
+				var result = await _orderRepository.FindByClientIdAsync(clientId,cancellationToken);
+
+				return Result<List<Application.Domain.Order?>?>.Success(result);
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "[{Type}] An error occurred.",
 					nameof(OrderEventUseCase));
 
-				return Result<List<Application.Domain.Order>>.Failed($"An error occurred in the class {nameof(OrderEventUseCase)}");
+				return Result<List<Application.Domain.Order?>?>.Failed($"An error occurred in the class {nameof(OrderEventUseCase)}");
 			}
 		}
 	}

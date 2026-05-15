@@ -18,7 +18,6 @@
 
     }
 
-
     public class Result<T> : Result
     {
         public T? Content { get; private set; }

@@ -33,5 +33,10 @@ namespace delivery_order_services.Application.Domain
         {
             OrderStatus = Enum.OrderStatus.DELIVERED.ToString();
         }
+
+        public void SetIdempotencyKey(string idempotencyKey)
+        {
+            IdempotencyKey = idempotencyKey;
+        }
     }
 }

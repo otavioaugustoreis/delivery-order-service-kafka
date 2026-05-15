@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
+
 namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
 {
     public class OrderRepository : MongoDbContext<Domain.Order>, IOrderRepository
@@ -15,7 +16,7 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
             _collection = GetCollection(configuration.Value.DatabaseName, nameof(Domain.Order));
         }
 
-        public async Task<bool> CreateAsync(Domain.Order orderEntity, CancellationToken cancellationToken)
+        public async Task<bool> InsertOneAsync(Domain.Order orderEntity, CancellationToken cancellationToken)
         {
             try
             {
@@ -28,10 +29,10 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
             }
         }
 
-        public async Task<List<Domain.Order>> GetAllAsync(CancellationToken cancellationToken)
-            => await _collection.Find(_ => true).ToListAsync(cancellationToken);
-
-        public async Task<Domain.Order?> GetByIdAsync(string id, CancellationToken cancellationToken)
-             => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
+        public async Task<List<Domain.Order?>?> FindByClientIdAsync(string ClientId, CancellationToken cancellationToken)
+        {
+            return await _collection.Find(x => x.ClientId == ClientId).ToListAsync(cancellationToken);
+        }
+             
     }
 }

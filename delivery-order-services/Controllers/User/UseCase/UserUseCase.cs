@@ -13,23 +13,17 @@ namespace delivery_order_services.Controllers.User.UseCase
         private readonly ILogger<UserUseCase> _logger = logger;
         private readonly IUserRepository _userRepository = userRepository;
 
-        public async Task<Result<UserResponseModel>> ExecuteAsync(UserRequestModel userRequest, CancellationToken cancellationToken)
+        public async Task<Result> InsertOneAsync(UserRequestModel userRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var userEntity = new Application.Domain.User()
-                {
-                    Name = userRequest.Name,
-                    Email = userRequest.Email,
-                };
+                var userEntity = userRequest.ToUserEntity();
 
                 userEntity.SetClient();
 
-				await _userRepository.CreateAsync(userEntity,cancellationToken);
+				await _userRepository.InsertOneAsync(userEntity,cancellationToken);
 
-                var userModel = userEntity.ToUserResponseModel();
-
-                return Result<UserResponseModel>.Success(userModel);
+                return Result.Success();
             }
             catch (Exception ex)
             {
@@ -37,17 +31,18 @@ namespace delivery_order_services.Controllers.User.UseCase
                     nameof(UserUseCase),
                     new
                     {
-                        Method = nameof(ExecuteAsync)
+                        Method = nameof(InsertOneAsync)
                     });
 
-                return Result<UserResponseModel>.Failed($"An error occurred in the class {nameof(UserUseCase)}");
+                return Result.Failed($"An error occurred in the class {nameof(UserUseCase)}");
             }
         }
-        public async Task<Result<List<Application.Domain.User>>> GetAllAsync()
+
+        public async Task<Result<List<Application.Domain.User>>> FindAsync(CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _userRepository.GetAllAsync();
+                var result = await _userRepository.FindAsync(cancellationToken);
 
                 return Result<List<Application.Domain.User>>.Success(result);
             }
@@ -57,7 +52,7 @@ namespace delivery_order_services.Controllers.User.UseCase
                     nameof(UserUseCase),
                     new
                     {
-                        Method = nameof(GetAllAsync)
+                        Method = nameof(FindAsync)
                     });
 
                 return Result<List<Application.Domain.User>>.Failed($"An error occurred in the class {nameof(UserUseCase)}");

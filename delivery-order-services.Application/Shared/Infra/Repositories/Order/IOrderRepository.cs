@@ -4,10 +4,8 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
 {
     public interface IOrderRepository
     {
-        Task<List<Domain.Order>> GetAllAsync(CancellationToken cancellationToken);
+        Task<List<Domain.Order?>?> FindByClientIdAsync(string id, CancellationToken cancellationToken);
 
-        Task<Domain.Order?> GetByIdAsync(string id, CancellationToken cancellationToken);
-
-        Task<bool> CreateAsync(Domain.Order orderEntity, CancellationToken cancellationToken);
+        Task<bool> InsertOneAsync(Domain.Order orderEntity, CancellationToken cancellationToken);
     }
 }
