@@ -1,6 +1,6 @@
 ﻿using delivery_order_services.Application.Domain;
-using delivery_order_services.Application.Shared;
 using delivery_order_services.Application.Shared.Abstractions;
+using delivery_order_services.Application.Shared.Contants;
 
 namespace delivery_order_services.Producer
 {

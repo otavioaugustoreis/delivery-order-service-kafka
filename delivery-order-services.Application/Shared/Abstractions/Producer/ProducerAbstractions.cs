@@ -65,7 +65,7 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
                     {
                         EnvelopeValue = envelope.Value,
                     });
-                //Resolver! Acho que não precisamos lançar uma exceção aqui, mas isso depende do caso de uso
+                //Resolver! Acho que não precisamos lançar uma exceção aqui, mas isso depende do caso de uso, pois qual é a melhor coisa a se fazer aqui?
                 throw new ();
             }
         }

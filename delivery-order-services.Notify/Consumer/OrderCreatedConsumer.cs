@@ -1,7 +1,7 @@
 ﻿
 using Confluent.Kafka;
 using delivery_order_services.Application.Domain;
-using delivery_order_services.Application.Shared;
+using delivery_order_services.Application.Shared.Contants;
 using System.Text.Json;
 
 namespace delivery_order_services.Notify.Features

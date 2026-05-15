@@ -1,4 +1,4 @@
-﻿namespace delivery_order_services.Application.Shared
+﻿namespace delivery_order_services.Application.Shared.Contants
 {
     public static class Topics
     {
