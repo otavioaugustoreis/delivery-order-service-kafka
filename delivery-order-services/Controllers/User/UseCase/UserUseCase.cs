@@ -23,6 +23,13 @@ namespace delivery_order_services.Controllers.User.UseCase
 
 				await _userRepository.InsertOneAsync(userEntity,cancellationToken);
 
+                _logger.LogInformation("[{Type}] User Inserted. Input: {@Input}",
+                    nameof(UserUseCase),
+                    new
+                    {
+                        Name = userRequest.Name
+                    });
+
                 return Result.Success();
             }
             catch (Exception ex)
@@ -31,7 +38,7 @@ namespace delivery_order_services.Controllers.User.UseCase
                     nameof(UserUseCase),
                     new
                     {
-                        Method = nameof(InsertOneAsync)
+                        Name = userRequest.Name,
                     });
 
                 return Result.Failed($"An error occurred in the class {nameof(UserUseCase)}");
@@ -48,12 +55,7 @@ namespace delivery_order_services.Controllers.User.UseCase
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "[{Type}] An error occurred. Input: {@Input}",
-                    nameof(UserUseCase),
-                    new
-                    {
-                        Method = nameof(FindAsync)
-                    });
+                _logger.LogError(ex, "[{Type}] An error occurred",nameof(UserUseCase));
 
                 return Result<List<Application.Domain.User>>.Failed($"An error occurred in the class {nameof(UserUseCase)}");
             }   
