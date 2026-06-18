@@ -23,10 +23,18 @@ namespace delivery_order_services.Application.Domain
         public string IdempotencyKey { get; set; } = string.Empty;
 
         public string GetOrderStatus(OrderStatus orderStatus) => orderStatus.ToString();
+        
+        public void SetIdempotencyKey(string idempotencyKey = "")
+        {
+            IdempotencyKey = string.IsNullOrEmpty(idempotencyKey)
+                ? Guid.NewGuid().ToString()
+                : idempotencyKey;
+        }
 
-        public void SetCreated()
+        public void SetCreated(string idempotencyKey = "")
         {
             OrderStatus = Enum.OrderStatus.CREATED.ToString();
+            SetIdempotencyKey(idempotencyKey); 
         }
 
         public void SetDelivered()
@@ -34,9 +42,6 @@ namespace delivery_order_services.Application.Domain
             OrderStatus = Enum.OrderStatus.DELIVERED.ToString();
         }
 
-        public void SetIdempotencyKey(string idempotencyKey)
-        {
-            IdempotencyKey = idempotencyKey;
-        }
+       
     }
 }

@@ -12,7 +12,7 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.User
             IMongoClient client, 
             IOptions<MongoDbConfiguration> configuration) : base(client)
         {
-            _collection = GetCollection(configuration.Value.DatabaseName, nameof(Domain.Order));
+            _collection = GetCollection(configuration.Value.DatabaseName, nameof(Domain.User));
         }
 
         public async Task<List<Domain.User>> FindAsync(CancellationToken cancellationToken)

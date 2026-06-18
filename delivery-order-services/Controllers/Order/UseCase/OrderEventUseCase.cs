@@ -21,7 +21,7 @@ namespace delivery_order_services.Controllers.Order.UseCase
             _orderProducer = orderProducer;
         }
 
-        public async Task<Result> InsertOneAsync(OrderRequestModel input, string idempotencyKey, CancellationToken cancellationToken)
+        public async Task<Result> InsertOneAsync(OrderRequestModel input, string? idempotencyKey, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,9 +32,22 @@ namespace delivery_order_services.Controllers.Order.UseCase
                     Value = orderEntity
                 };
 
-                orderEntity.SetCreated();
+                orderEntity.SetCreated(idempotencyKey);
 
-                await _orderRepository.InsertOneAsync(orderEntity, cancellationToken);
+                var isDuplicatedKey =  await _orderRepository.InsertOneAsync(orderEntity, cancellationToken);
+
+                if (!isDuplicatedKey)
+                {
+                    _logger.LogInformation("[{Type}] Order has already been created. Input:{@input}",
+                    nameof(OrderEventUseCase),
+                    new
+                    {
+                        IdempotencyKey = idempotencyKey,
+                        Product = orderEntity.ProductName
+                    });
+
+                    return Result.Failed("Order has already been created");
+                }
 
                 _logger.LogInformation("[{Type}] Order created successfully. Input:{@input}",
                     nameof(OrderEventUseCase),

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System.Runtime.CompilerServices;
 
 namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
 {
@@ -42,6 +41,7 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
                 new CreateIndexOptions
                 {
                     Unique = true,
+                    Sparse = true,
                     Name = IndexName
                 });
 

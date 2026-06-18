@@ -55,7 +55,6 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
                                Offset = deliveryReport.Offset.Value
                            });
                 }
-
             }
             catch (Exception ex) 
             {

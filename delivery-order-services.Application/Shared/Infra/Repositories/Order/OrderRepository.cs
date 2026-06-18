@@ -33,6 +33,5 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
         {
             return await _collection.Find(x => x.ClientId == ClientId).ToListAsync(cancellationToken);
         }
-             
     }
 }

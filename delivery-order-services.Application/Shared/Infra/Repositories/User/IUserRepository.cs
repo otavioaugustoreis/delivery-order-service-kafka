@@ -1,6 +1,4 @@
-﻿using delivery_order_services.Application.Domain;
-
-namespace delivery_order_services.Application.Shared.Infra.Repositories.User
+﻿namespace delivery_order_services.Application.Shared.Infra.Repositories.User
 {
     public interface IUserRepository
     {
