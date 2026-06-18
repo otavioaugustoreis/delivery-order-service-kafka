@@ -1,7 +1,5 @@
 ﻿using delivery_order_services.ServicesCollectionExtensions;
 
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-
 namespace delivery_order_services
 {
     public class Startup(IConfiguration configuration)
