@@ -49,11 +49,11 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
             {
                 await _ordersCollection.Indexes.CreateOneAsync(indexModel, cancellationToken: cancellationToken);
 
-                _logger.LogInformation("[MongoIndexes] Índice criado/garantido: {IndexName}", IndexName);
+                _logger.LogInformation("[MongoIndexes] index created: {IndexName}", IndexName);
             }
             catch (MongoCommandException ex) when (ex.CodeName is "IndexOptionsConflict" or "IndexKeySpecsConflict")
             {
-                _logger.LogWarning(ex, "[MongoIndexes] Conflito ao criar índice {IndexName}. Verifique o índice existente.", IndexName);
+                _logger.LogWarning(ex, "[MongoIndexes] Conflict while creating index {IndexName}. Check the existing index.", IndexName);
             }
         }
 
