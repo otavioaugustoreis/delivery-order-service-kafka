@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace delivery_order_services.Application.Shared.Abstractions.Producer
 {
-    public class ProducerAbstractions : IProducerAbstractions
+    public class ProducerAbstractions : IProducerAbstractions 
     {
 
         private readonly ILogger<ProducerAbstractions> _logger;
@@ -19,7 +19,7 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
             _producerConfiguration = producerConfiguration.Value;
         }
 
-        public async Task ProduceAsync(TEnvelope envelope, CancellationToken cancellationToken)
+        public async Task ProduceAsync<T>(TEnvelope<T> envelope, CancellationToken cancellationToken)
         {
 
             _logger.LogInformation("Starting message production. Input:{@input}",
@@ -64,8 +64,7 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
                     {
                         EnvelopeValue = envelope.Value,
                     });
-                //Resolver! Acho que não precisamos lançar uma exceção aqui, mas isso depende do caso de uso, pois qual é a melhor coisa a se fazer aqui?
-                throw new ();
+                //Qual a melhor solucação a se fazer aqui? Devo lançar a exceção ou apenas logar o erro?
             }
         }
     }

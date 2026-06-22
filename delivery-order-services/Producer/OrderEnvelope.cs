@@ -4,7 +4,7 @@ using delivery_order_services.Application.Shared.Contants;
 
 namespace delivery_order_services.Producer
 {
-    public class OrderEnvelope : TEnvelope
+    public class OrderEnvelope : TEnvelope<Order>
 	{
         public string Key { get; set; } = default!;
         public Order Value { get; set; }

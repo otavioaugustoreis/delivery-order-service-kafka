@@ -2,6 +2,6 @@
 {
     public interface IProducerAbstractions
     {
-        Task ProduceAsync(TEnvelope envelope, CancellationToken cancellationToken);
+        Task ProduceAsync<T>(TEnvelope<T> envelope, CancellationToken cancellationToken);
     }
 }
