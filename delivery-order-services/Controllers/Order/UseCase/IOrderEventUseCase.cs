@@ -1,4 +1,4 @@
-﻿using delivery_order_services.Commons.ResultPattern;
+﻿using delivery_order_services.Application.Shared.Abstractions.Result;
 using delivery_order_services.Controllers.Order.Models;
 
 namespace delivery_order_services.Controllers.Order.UseCase

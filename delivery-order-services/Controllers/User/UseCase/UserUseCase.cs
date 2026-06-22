@@ -1,6 +1,6 @@
-﻿using delivery_order_services.Commons.ResultPattern;
-using delivery_order_services.Controllers.User.Model;
+﻿using delivery_order_services.Controllers.User.Model;
 using delivery_order_services.Application.Shared.Infra.Repositories.User;
+using delivery_order_services.Application.Shared.Abstractions.Result;
 
 namespace delivery_order_services.Controllers.User.UseCase
 {

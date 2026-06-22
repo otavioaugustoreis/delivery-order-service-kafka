@@ -1,4 +1,4 @@
-﻿namespace delivery_order_services.Commons.ResultPattern
+﻿namespace delivery_order_services.Application.Shared.Abstractions.Result
 {
 
     public class Result 
