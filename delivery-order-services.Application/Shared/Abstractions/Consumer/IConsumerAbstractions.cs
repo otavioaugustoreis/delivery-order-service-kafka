@@ -2,6 +2,6 @@
 {
     public interface IConsumerAbstractions
     {
-        Task ExecuteAsync(CancellationToken cancellationToken);
+       Task ExecuteAsync(string topicName, string consumerGroup, CancellationToken cancellationToken);
     }
 }

@@ -1,10 +1,6 @@
-﻿
-using Confluent.Kafka;
-using delivery_order_services.Application.Domain;
-using delivery_order_services.Application.Shared.Abstractions.Consumer;
+﻿using delivery_order_services.Application.Shared.Abstractions.Consumer;
 using delivery_order_services.Application.Shared.Contants;
 using Microsoft.Extensions.Options;
-using System.Text.Json;
 
 namespace delivery_order_services.Notify.Features
 {
@@ -12,6 +8,7 @@ namespace delivery_order_services.Notify.Features
     {
         private readonly ILogger<OrderCreatedConsumer> _logger;
         private readonly ConsumerConfiguration _consumerConfig;
+        private readonly IConsumerAbstractions consumerAbstractions;
 
         public OrderCreatedConsumer(
             ILogger<OrderCreatedConsumer> logger,
@@ -21,54 +18,16 @@ namespace delivery_order_services.Notify.Features
             _consumerConfig = consumerConfig.Value;
         }
 
+        //Testar consumer
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-
-            while (!cancellationToken.IsCancellationRequested)
+            try
             {
-                _logger.LogInformation("Order notifier running at: {time}", DateTimeOffset.Now);
+                await consumerAbstractions.ExecuteAsync(Topics.OrderTopic, ConsumerGroups.OrderGroupId, cancellationToken);
 
-                var config = new ConsumerConfig
-                {
-                    BootstrapServers = _consumerConfig.BootstrapServers,
-                    GroupId = ConsumerGroups.OrderGroupId,
-                    AutoOffsetReset = AutoOffsetReset.Earliest
-                };
-
-                using (var consumer = new ConsumerBuilder<Ignore, string>(config).Build())
-                {
-                    consumer.Subscribe(Topics.OrderTopic);
-
-                    CancellationTokenSource cts = new CancellationTokenSource();
-                    Console.CancelKeyPress += (_, e) => {
-                        e.Cancel = true;
-                        cts.Cancel();
-                    };
-
-                    try
-                    {
-                        while (true)
-                        {
-                            try
-                            {
-                                var consumeResult = consumer.Consume(cts.Token);
-
-                                var order = JsonSerializer.Deserialize<Order>(consumeResult.Message.Value);
-
-                                Console.WriteLine($"Mensagem recebida: {consumeResult.Message.Value}");
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine($"Erro ao consumir a mensagem: {ex.Message}");
-                            }
-                        }
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        consumer.Close();
-                    }
-                }
+            }catch (Exception ex)
+            {
+                throw;
             }
-        }
     }
-}
+}}
