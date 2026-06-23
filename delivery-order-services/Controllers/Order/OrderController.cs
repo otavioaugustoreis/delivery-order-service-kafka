@@ -40,5 +40,18 @@ namespace delivery_order_services.Controllers.Order
                 ? Ok(result.Content)
                 : BadRequest(result.ErrorMessage);
         }
+
+        [HttpPost("order/{orderId}")]
+        public async Task<ActionResult> PostOrderDeliveredAsync(
+                [FromBody] OrderRequestModel orderRequest,
+                [FromHeader(Name = "Idempotency-Key")] string? idempotencyKey,
+                CancellationToken cancellationToken)
+        {
+            var order = await _orderEventUseCase.InsertOneAsync(orderRequest, idempotencyKey, cancellationToken);
+
+            return order.IsSuccess
+                ? Accepted()
+                : BadRequest(order.ErrorMessage);
+        }
     }
 }

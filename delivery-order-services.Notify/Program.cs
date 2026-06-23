@@ -1,4 +1,5 @@
 using delivery_order_services.Notify.Features;
+using delivery_order_services.Notify.ServicesCollectionExtensions;
 
 public class Program
 {
@@ -11,7 +12,7 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-
+                services.AddWorkerConfig(hostContext.Configuration);
                 services.AddHostedService<OrderCreatedConsumer>();
             });
 }

@@ -1,7 +1,9 @@
 ﻿
 using Confluent.Kafka;
 using delivery_order_services.Application.Domain;
+using delivery_order_services.Application.Shared.Abstractions.Consumer;
 using delivery_order_services.Application.Shared.Contants;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace delivery_order_services.Notify.Features
@@ -9,23 +11,27 @@ namespace delivery_order_services.Notify.Features
     public class OrderCreatedConsumer : BackgroundService
     {
         private readonly ILogger<OrderCreatedConsumer> _logger;
-        
-        public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger)
+        private readonly ConsumerConfiguration _consumerConfig;
+
+        public OrderCreatedConsumer(
+            ILogger<OrderCreatedConsumer> logger,
+            IOptions<ConsumerConfiguration> consumerConfig)
         {
             _logger = logger;
+            _consumerConfig = consumerConfig.Value;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
 
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Order notifier running at: {time}", DateTimeOffset.Now);
 
                 var config = new ConsumerConfig
                 {
-                    BootstrapServers = "localhost:9092",
-                    GroupId = "notifier-consumer-group",
+                    BootstrapServers = _consumerConfig.BootstrapServers,
+                    GroupId = ConsumerGroups.OrderGroupId,
                     AutoOffsetReset = AutoOffsetReset.Earliest
                 };
 

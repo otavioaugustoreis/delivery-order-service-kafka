@@ -1,14 +1,13 @@
-﻿using delivery_order_services.Notify.Consumer.Config;
+﻿using delivery_order_services.Application.Shared.Abstractions.Consumer;
 
 namespace delivery_order_services.Notify.ServicesCollectionExtensions
 {
     public static class ServicesCollectionExtensions
     {
-        
         public static IServiceCollection AddWorkerConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<ConsumerConfig>(
-                configuration.GetSection(nameof(ConsumerConfig)));
+            services.Configure<ConsumerConfiguration>(
+                configuration.GetSection(nameof(ConsumerConfiguration)));
 
             return services;
         }
