@@ -1,22 +1,19 @@
 ﻿using Confluent.Kafka;
-using delivery_order_services.Application.Domain;
-using delivery_order_services.Application.Shared.Contants;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace delivery_order_services.Application.Shared.Abstractions.Consumer
 {
-    public class ConsumerAbstractions : IConsumerAbstractions
+    public class ConsumerAbstractions<T> : IConsumerAbstractions where T : TEnvelope<T>
     {
 
-        private readonly ILogger<ConsumerAbstractions> _logger;
-        private readonly string _kafkaBootstrapServers;
+        private readonly ILogger<ConsumerAbstractions<T>> _logger;
         private readonly ConsumerConfiguration _consumerConfig;
 
         private const int maxRetries = 3;
-
-        public ConsumerAbstractions(ILogger<ConsumerAbstractions> logger, IOptions<ConsumerConfiguration> consumerConfig  )
+        private const int baseDelayMs = 200;
+        public ConsumerAbstractions(ILogger<ConsumerAbstractions<T>> logger, IOptions<ConsumerConfiguration> consumerConfig  )
         {
             _logger = logger;
             _consumerConfig = consumerConfig.Value;
@@ -48,8 +45,10 @@ namespace delivery_order_services.Application.Shared.Abstractions.Consumer
 
                     try
                     {
-                        await ProcessMessageWithRetryAsync(consumeResult, cancellationToken);
+                        var value =  await ProcessMessageWithRetryAsync(consumeResult, cancellationToken);
+                        
                         consumer.Commit(consumeResult);
+
                     }
                     catch (Exception ex)
                     {
@@ -73,16 +72,15 @@ namespace delivery_order_services.Application.Shared.Abstractions.Consumer
                 consumer.Close();
             }
         }
-
-        private async Task ProcessMessageWithRetryAsync(ConsumeResult<Ignore, string> consumeResult, CancellationToken cancellationToken)
+        private async Task<T> ProcessMessageWithRetryAsync(ConsumeResult<Ignore, string> consumeResult, CancellationToken cancellationToken)
         {
             for (var attempt = 0; attempt <= maxRetries; attempt++)
             {
                 try
                 {
-                    var order = JsonSerializer.Deserialize<Order>(consumeResult.Message.Value);
+                    var value = JsonSerializer.Deserialize<T>(consumeResult.Message.Value);
 
-                    if (order is null)
+                    if (value is null)
                         throw new InvalidOperationException("Invalid message: could not deserialize the Order.");
 
                     _logger.LogInformation(
@@ -92,10 +90,9 @@ namespace delivery_order_services.Application.Shared.Abstractions.Consumer
                         {
                             Topic = consumeResult.Topic,
                             Offset = consumeResult.Offset.Value,
-                            OrderId = order.Id
+                            Value = value
                         });
 
-                    return;
                 }
                 catch (Exception ex)
                 {
@@ -110,8 +107,21 @@ namespace delivery_order_services.Application.Shared.Abstractions.Consumer
 
                     if (attempt == maxRetries)
                         throw;
+
+
+                    var delay = TimeSpan.FromMilliseconds(baseDelayMs * Math.Pow(2, attempt));
+                    try
+                    {
+                        await Task.Delay(delay, cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
+                    }
                 }
             }
+
+            throw new InvalidOperationException("Retry loop exited unexpectedly.");
         }
         private Task SendToDLQAsync(string message, Exception ex, CancellationToken cancellationToken)
         {

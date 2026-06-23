@@ -12,7 +12,7 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-                services.AddWorkerConfig(hostContext.Configuration);
+                services.AddWorker(hostContext.Configuration);
                 services.AddHostedService<OrderCreatedConsumer>();
             });
 }

@@ -1,29 +1,23 @@
 ﻿using delivery_order_services.Application.Shared.Abstractions.Consumer;
 using delivery_order_services.Application.Shared.Contants;
-using Microsoft.Extensions.Options;
 
 namespace delivery_order_services.Notify.Features
 {
     public class OrderCreatedConsumer : BackgroundService
     {
-        private readonly ILogger<OrderCreatedConsumer> _logger;
-        private readonly ConsumerConfiguration _consumerConfig;
-        private readonly IConsumerAbstractions consumerAbstractions;
+        private readonly IConsumerAbstractions _consumerAbstractions;
 
         public OrderCreatedConsumer(
-            ILogger<OrderCreatedConsumer> logger,
-            IOptions<ConsumerConfiguration> consumerConfig)
+            IConsumerAbstractions consumerAbstractions)
         {
-            _logger = logger;
-            _consumerConfig = consumerConfig.Value;
-        }
+            _consumerAbstractions = consumerAbstractions;
+        }   
 
-        //Testar consumer
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             try
             {
-                await consumerAbstractions.ExecuteAsync(Topics.OrderTopic, ConsumerGroups.OrderGroupId, cancellationToken);
+                await _consumerAbstractions.ExecuteAsync(Topics.OrderTopic, ConsumerGroups.OrderGroupId, cancellationToken);
 
             }catch (Exception ex)
             {
