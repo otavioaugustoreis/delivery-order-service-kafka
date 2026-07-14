@@ -23,17 +23,13 @@ Fluxo principal: cliente cria pedido no app → pedido é persistido no MongoDB 
   - gravação em coleção outbox seguida de worker que publica no Kafka e marca como enviado.
 
 ### Observabilidade
-- Logs estruturados em JSON com `traceId` e `requestId`.
+- Logs estruturados
 - Métricas:
-  - pedidos por minuto;
-  - latência de gravação;
-  - taxa de publicação/consumo.
+  -  publicação/consumo.
 - Tracing distribuído para correlacionar:
   - requisição HTTP → gravação DB → publicação Kafka → consumo.
 - Health checks para API, Kafka e MongoDB.
-
-### Idempotência e Resiliência
-- Mensagens com `messageId` e `pedidoId` para evitar duplicidade.
+###e Resiliência
 - Consumidor com deduplicação via chave única no MongoDB ou cache.
 - Retry exponencial e DLQ (dead-letter topic) para falhas persistentes.
 
