@@ -12,7 +12,6 @@ Fluxo principal: cliente cria pedido no app → pedido é persistido no MongoDB 
 | Broker de Mensagens | Kafka | Transporte confiável de eventos de pedido |
 | Serviço de Notificação | .NET | Consome tópico Kafka e envia notificações |
 | Banco de Dados | MongoDB | Persistência de pedidos e metadados |
-| Observabilidade | OpenTelemetry, Prometheus, Grafana | Coleta de logs, métricas e traces distribuídos |
 
 ## Principais conceitos e garantias
 
