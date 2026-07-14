@@ -2,6 +2,6 @@
 {
     public class ProducerConfiguration
     {
-        public string BootstrapServers { get; set; }
+        public string BootstrapServers { get; set; } = default!;
     }
 }

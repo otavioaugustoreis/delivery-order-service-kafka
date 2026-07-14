@@ -1,5 +1,6 @@
 ﻿using delivery_order_services.Controllers.Order.Models;
 using delivery_order_services.Controllers.Order.UseCase;
+using delivery_order_services.ServicesCollectionExtensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace delivery_order_services.Controllers.Order
@@ -21,24 +22,17 @@ namespace delivery_order_services.Controllers.Order
                 [FromHeader(Name = "Idempotency-Key")] string? idempotencyKey,
                 CancellationToken cancellationToken)
         {
-           var order = await _orderEventUseCase.InsertOneAsync(orderRequest, idempotencyKey, cancellationToken);
+           var result = await _orderEventUseCase.InsertOneAsync(orderRequest, idempotencyKey, cancellationToken);
 
-            return order.IsSuccess
-                ? Accepted()
-                : BadRequest(order.ErrorMessage);
+            return result.ToActionResult();
         }
 
         [HttpGet("client/{clientId}")]
         public async Task<ActionResult> GetOrdersByClientIdAsync(string clientId,CancellationToken cancellationToken)
         {
             var result = await _orderEventUseCase.FindByClientIdAsync(clientId ,cancellationToken);
-            
-            if(result.Content is null)
-                return NoContent();
 
-            return result.IsSuccess
-                ? Ok(result.Content)
-                : BadRequest(result.ErrorMessage);
+            return result.ToActionResult();
         }
 
         [HttpPost("order/{orderId}")]
@@ -47,11 +41,9 @@ namespace delivery_order_services.Controllers.Order
                 [FromHeader(Name = "Idempotency-Key")] string? idempotencyKey,
                 CancellationToken cancellationToken)
         {
-            var order = await _orderEventUseCase.InsertOneAsync(orderRequest, idempotencyKey, cancellationToken);
+            var result = await _orderEventUseCase.InsertOneAsync(orderRequest, idempotencyKey, cancellationToken);
 
-            return order.IsSuccess
-                ? Accepted()
-                : BadRequest(order.ErrorMessage);
+            return result.ToActionResult();
         }
     }
 }

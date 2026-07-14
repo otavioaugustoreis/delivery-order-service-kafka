@@ -5,25 +5,26 @@ using System.Text.Json;
 
 namespace delivery_order_services.Application.Shared.Abstractions.Consumer
 {
-    public class ConsumerAbstractions<T> : IConsumerAbstractions where T : TEnvelope<T>
+    public class ConsumerAbstractions : IConsumerAbstractions
     {
 
-        private readonly ILogger<ConsumerAbstractions<T>> _logger;
+        private readonly ILogger<ConsumerAbstractions> _logger;
         private readonly ConsumerConfiguration _consumerConfig;
 
         private const int maxRetries = 3;
         private const int baseDelayMs = 200;
-        public ConsumerAbstractions(ILogger<ConsumerAbstractions<T>> logger, IOptions<ConsumerConfiguration> consumerConfig  )
+        public ConsumerAbstractions(ILogger<ConsumerAbstractions> logger, IOptions<ConsumerConfiguration> consumerConfig)
         {
             _logger = logger;
             _consumerConfig = consumerConfig.Value;
         }
 
-        public async Task ExecuteAsync(string topicName, string consumerGroup ,CancellationToken cancellationToken)
+        public async Task ExecuteAsync<T>(
+            string topicName, 
+            string consumerGroup, 
+            Func<T, CancellationToken, Task> messageHandler,
+            CancellationToken cancellationToken)
         {
-           
-                _logger.LogInformation("Order notifier running at: {time}", DateTimeOffset.Now);
-
                 var config = new ConsumerConfig
                 {
                     BootstrapServers = _consumerConfig.BootstrapServers,
@@ -45,8 +46,18 @@ namespace delivery_order_services.Application.Shared.Abstractions.Consumer
 
                     try
                     {
-                        var value =  await ProcessMessageWithRetryAsync(consumeResult, cancellationToken);
-                        
+                        var message = JsonSerializer.Deserialize<T>(
+                            consumeResult.Message.Value,
+                            new JsonSerializerOptions
+                            {
+                                PropertyNameCaseInsensitive = true
+                            });
+
+                        if (message is null)
+                            throw new InvalidOperationException("Invalid message: could not deserialize the Order.");
+
+                        await ProcessMessageWithRetryAsync(message, messageHandler, cancellationToken);
+
                         consumer.Commit(consumeResult);
 
                     }
@@ -72,26 +83,19 @@ namespace delivery_order_services.Application.Shared.Abstractions.Consumer
                 consumer.Close();
             }
         }
-        private async Task<T> ProcessMessageWithRetryAsync(ConsumeResult<Ignore, string> consumeResult, CancellationToken cancellationToken)
+        private async Task ProcessMessageWithRetryAsync<T>(
+            T message,
+            Func<T, CancellationToken, Task> messageHandler, 
+            CancellationToken cancellationToken)
         {
             for (var attempt = 0; attempt <= maxRetries; attempt++)
             {
                 try
                 {
-                    var value = JsonSerializer.Deserialize<T>(consumeResult.Message.Value);
-
-                    if (value is null)
-                        throw new InvalidOperationException("Invalid message: could not deserialize the Order.");
+                    await messageHandler(message, cancellationToken);
 
                     _logger.LogInformation(
-                        "[{Type}] Message processed successfully. Input:{@input}",
-                        nameof(ProcessMessageWithRetryAsync),
-                        new
-                        {
-                            Topic = consumeResult.Topic,
-                            Offset = consumeResult.Offset.Value,
-                            Value = value
-                        });
+                        "[{Type}] Message processed successfully",nameof(ProcessMessageWithRetryAsync));
 
                 }
                 catch (Exception ex)

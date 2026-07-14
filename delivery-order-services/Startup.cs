@@ -1,4 +1,5 @@
 ﻿using delivery_order_services.ServicesCollectionExtensions;
+using Microsoft.AspNetCore.Http.Timeouts;
 
 namespace delivery_order_services
 {
@@ -10,6 +11,13 @@ namespace delivery_order_services
         {
             services.AddSwaggerGen();
             services.InstallServices(Configuration);
+            services.AddRequestTimeouts(options =>
+            {
+                options.DefaultPolicy = new RequestTimeoutPolicy
+                {
+                    Timeout = TimeSpan.FromSeconds(3)
+                };
+            });
         }
 
         public void Configure(IApplicationBuilder app)

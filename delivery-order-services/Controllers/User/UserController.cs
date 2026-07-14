@@ -1,5 +1,6 @@
 ﻿using delivery_order_services.Controllers.User.Model;
 using delivery_order_services.Controllers.User.UseCase;
+using delivery_order_services.ServicesCollectionExtensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace delivery_order_services.Controllers.User
@@ -23,9 +24,7 @@ namespace delivery_order_services.Controllers.User
         {
             var result = await _usecase.InsertOneAsync(userRequest, cancellationToken);
 
-            return result.IsSuccess 
-                ? NoContent()
-                : BadRequest(result.ErrorMessage!);
+            return result.ToActionResult();
         }
 
         [HttpGet]
@@ -33,9 +32,7 @@ namespace delivery_order_services.Controllers.User
         {
             var result = await _usecase.FindAsync(cancellationToken);
 
-            return result.IsSuccess 
-                ? Ok(result.Content) 
-                : BadRequest(result.ErrorMessage!);
+            return result.ToActionResult();
         }
     }
 }

@@ -16,8 +16,7 @@ namespace delivery_order_services.ServicesCollectionExtensions
                 SupportedUICultures = listCultureInfo,
                 DefaultRequestCulture = defaultRequestCulture,
                 FallBackToParentCultures = false,
-                FallBackToParentUICultures = false,
-                RequestCultureProviders = null
+                FallBackToParentUICultures = false
             };
 
             app.UseRequestLocalization(localizationOptions);

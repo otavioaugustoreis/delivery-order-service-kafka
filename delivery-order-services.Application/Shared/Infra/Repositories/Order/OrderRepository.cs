@@ -31,7 +31,7 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.Order
 
         public async Task<List<Domain.Order?>?> FindByClientIdAsync(string ClientId, CancellationToken cancellationToken)
         {
-            return await _collection.Find(x => x.ClientId == ClientId).ToListAsync(cancellationToken);
+            return await _collection?.Find(x => x.ClientId == ClientId).ToListAsync(cancellationToken);
         }
     }
 }

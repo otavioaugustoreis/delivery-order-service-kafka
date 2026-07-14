@@ -1,20 +1,21 @@
-﻿namespace delivery_order_services.Application.Shared.Abstractions.Result
+﻿
+namespace delivery_order_services.Application.Shared.Abstractions.Result
 {
 
     public class Result 
     {
-        public string? ErrorMessage { get; private set; }
+        public Error? Error { get; private set; }
         public bool IsSuccess { get; private set; }
 
 
-        public Result(string? errorMessage, bool isSuccess)
+        public Result(Error? errorMessage, bool isSuccess)
         {
-            ErrorMessage = errorMessage;
+            Error = errorMessage;
             IsSuccess = isSuccess;
         }
 
         public static Result Success() => new(null, true);
-        public static Result Failed(string? errorMessage) => new(errorMessage!, false);
+        public static Result Failed(Error? errorMessage) => new(errorMessage!, false);
 
     }
 
@@ -22,17 +23,38 @@
     {
         public T? Content { get; private set; }
         
-        public Result(string? errorMesssage,T content ,bool isSuccess) : base(errorMesssage,isSuccess)
+        public Result(Error? errorMesssage,T content ,bool isSuccess) : base(errorMesssage,isSuccess)
         {
             Content = content;
         }
 
-        public Result(string? errorMesssage, bool isSuccess) : base(errorMesssage,isSuccess)
+        public Result(Error? errorMesssage, bool isSuccess) : base(errorMesssage,isSuccess)
         {
         }
 
         public static Result<T> Success(T result) => new(null,result,true);
-        public static Result<T> Failed(string? errorMessage) => new(errorMessage!,false);
+        public static Result<T> Failed(Error? errorMessage) => new(errorMessage!,false);
     }
 
+    public class Error 
+    {
+        public ErrorCode Code { get; private set; }
+        public string? ErrorMessage { get; private set; }
+        public Error(ErrorCode code, string? errorMessage)
+        {
+            ErrorMessage = errorMessage;
+            code = Code;
+        }
+    }
+
+    public enum ErrorCode
+    {
+        RequestTimeout,
+        ValidationError,
+        NotFound,
+        Conflict,
+        BadRequest,
+        InternalServerError,
+        UnexpectedError
+    }
 }

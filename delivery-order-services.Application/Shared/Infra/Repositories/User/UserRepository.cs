@@ -21,7 +21,7 @@ namespace delivery_order_services.Application.Shared.Infra.Repositories.User
         public async Task<Domain.User?> FindByIdAsync(string id, CancellationToken cancellationToken)
             => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
 
-        public async Task InsertOneAsync(Domain.User? userEntity, CancellationToken cancellationToken)
+        public async Task InsertOneAsync(Domain.User userEntity, CancellationToken cancellationToken)
             => await _collection!.InsertOneAsync(userEntity, cancellationToken);
     }
 }

@@ -24,7 +24,7 @@ namespace delivery_order_services.Application.Domain
 
         public string GetOrderStatus(OrderStatus orderStatus) => orderStatus.ToString();
         
-        public void SetIdempotencyKey(string idempotencyKey = "")
+        private void SetIdempotencyKey(string idempotencyKey = "")
         {
             IdempotencyKey = string.IsNullOrEmpty(idempotencyKey)
                 ? Guid.NewGuid().ToString()

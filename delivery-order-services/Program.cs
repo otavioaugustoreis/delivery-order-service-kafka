@@ -15,6 +15,8 @@ namespace delivery_order_services
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {
+                webBuilder.UseKestrel(options => options.AddServerHeader = false);
+
                 webBuilder.UseStartup<Startup>();
             });
     }

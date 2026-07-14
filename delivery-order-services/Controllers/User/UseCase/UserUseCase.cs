@@ -41,7 +41,7 @@ namespace delivery_order_services.Controllers.User.UseCase
                         Name = userRequest.Name,
                     });
 
-                return Result.Failed($"An error occurred in the class {nameof(UserUseCase)}");
+                return Result.Failed(new(ErrorCode.UnexpectedError, $"An error occurred in the class {nameof(UserUseCase)}"));
             }
         }
 
@@ -57,7 +57,7 @@ namespace delivery_order_services.Controllers.User.UseCase
             {
                 _logger.LogError(ex, "[{Type}] An error occurred",nameof(UserUseCase));
 
-                return Result<List<Application.Domain.User>>.Failed($"An error occurred in the class {nameof(UserUseCase)}");
+                return Result<List<Application.Domain.User>>.Failed(new(ErrorCode.UnexpectedError, $"An error occurred in the class {nameof(UserUseCase)}"));
             }   
         }
     }

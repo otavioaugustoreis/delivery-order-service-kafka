@@ -46,7 +46,7 @@ namespace delivery_order_services.Controllers.Order.UseCase
                         Product = orderEntity.ProductName
                     });
 
-                    return Result.Failed("Order has already been created");
+                    return Result.Failed(new(ErrorCode.Conflict ,"Order has already been created"));
                 }
 
                 _logger.LogInformation("[{Type}] Order created successfully. Input:{@input}",
@@ -72,7 +72,7 @@ namespace delivery_order_services.Controllers.Order.UseCase
                         input.ProductName
                     });
 
-                return Result.Failed($"An error occurred in method: {nameof(InsertOneAsync)}");
+                return Result.Failed(new(ErrorCode.UnexpectedError, $"An error occurred in method: {nameof(InsertOneAsync)}"));
             }
         }
 		public async Task<Result<List<Application.Domain.Order?>?>> FindByClientIdAsync(string clientId, CancellationToken cancellationToken)
@@ -88,7 +88,7 @@ namespace delivery_order_services.Controllers.Order.UseCase
 				_logger.LogError(ex, "[{Type}] An error occurred.",
 					nameof(OrderEventUseCase));
 
-				return Result<List<Application.Domain.Order?>?>.Failed($"An error occurred in the class {nameof(OrderEventUseCase)}");
+				return Result<List<Application.Domain.Order?>?>.Failed(new(ErrorCode.UnexpectedError, $"An error occurred in the class {nameof(OrderEventUseCase)}"));
 			}
 		}
 	}
