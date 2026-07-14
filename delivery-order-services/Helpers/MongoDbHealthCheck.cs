@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace delivery_order_services.HealthChecks
+namespace delivery_order_services.Helpers
 {
     public sealed class MongoDbHealthCheck : IHealthCheck
     {

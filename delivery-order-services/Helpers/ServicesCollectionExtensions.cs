@@ -1,6 +1,5 @@
 ﻿using delivery_order_services.Application.Shared.Abstractions.Producer;
-
-using delivery_order_services.Application.Shared.Infra.DependencyInjection;
+using delivery_order_services.Application.Shared.Infra.Configuration;
 using delivery_order_services.Controllers.Order.UseCase;
 using delivery_order_services.Controllers.User.UseCase;
 using delivery_order_services.Producer;

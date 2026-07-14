@@ -1,5 +1,4 @@
-﻿using delivery_order_services.HealthChecks;
-using delivery_order_services.Helpers;
+﻿using delivery_order_services.Helpers;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http.Timeouts;

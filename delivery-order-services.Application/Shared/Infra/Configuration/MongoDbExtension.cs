@@ -1,12 +1,11 @@
-﻿using delivery_order_services.Application.Shared.Infra.Configuration;
-using delivery_order_services.Application.Shared.Infra.Repositories.Order;
+﻿using delivery_order_services.Application.Shared.Infra.Repositories.Order;
 using delivery_order_services.Application.Shared.Infra.Repositories.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace delivery_order_services.Application.Shared.Infra.DependencyInjection
+namespace delivery_order_services.Application.Shared.Infra.Configuration
 {
     public static class MongoDbExtension
     {
