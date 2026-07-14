@@ -1,6 +1,6 @@
 ﻿using delivery_order_services.Controllers.Order.Models;
 using delivery_order_services.Controllers.Order.UseCase;
-using delivery_order_services.ServicesCollectionExtensions;
+using delivery_order_services.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace delivery_order_services.Controllers.Order

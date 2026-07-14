@@ -64,7 +64,6 @@ namespace delivery_order_services.Application.Shared.Abstractions.Producer
                     {
                         EnvelopeValue = envelope.Value,
                     });
-                //Qual a melhor solucação a se fazer aqui? Devo lançar a exceção ou apenas logar o erro?
             }
         }
     }

@@ -47,8 +47,8 @@ namespace delivery_order_services.Application.Shared.Abstractions.Result
         public string? ErrorMessage { get; private set; }
         public Error(ErrorCode code, string? errorMessage)
         {
+            Code = code;
             ErrorMessage = errorMessage;
-            code = Code;
         }
     }
 

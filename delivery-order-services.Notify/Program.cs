@@ -1,4 +1,4 @@
-using delivery_order_services.Notify.Features;
+using delivery_order_services.Notify.Consumer;
 using delivery_order_services.Notify.ServicesCollectionExtensions;
 
 public class Program

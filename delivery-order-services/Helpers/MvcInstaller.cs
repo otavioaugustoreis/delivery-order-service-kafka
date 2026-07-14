@@ -1,7 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace delivery_order_services.ServicesCollectionExtensions
+namespace delivery_order_services.Helpers
 {
     public static class MvcInstaller
     {

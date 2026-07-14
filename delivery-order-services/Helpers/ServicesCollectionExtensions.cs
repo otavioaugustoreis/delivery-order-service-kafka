@@ -5,7 +5,7 @@ using delivery_order_services.Controllers.Order.UseCase;
 using delivery_order_services.Controllers.User.UseCase;
 using delivery_order_services.Producer;
 
-namespace delivery_order_services.ServicesCollectionExtensions
+namespace delivery_order_services.Helpers
 {
     public static class ServicesCollectionExtensions
     {

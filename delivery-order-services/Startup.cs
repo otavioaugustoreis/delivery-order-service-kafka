@@ -1,4 +1,4 @@
-﻿using delivery_order_services.ServicesCollectionExtensions;
+﻿using delivery_order_services.Helpers;
 using Microsoft.AspNetCore.Http.Timeouts;
 
 namespace delivery_order_services

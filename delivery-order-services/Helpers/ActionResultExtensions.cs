@@ -1,7 +1,7 @@
 ﻿using delivery_order_services.Application.Shared.Abstractions.Result;
 using Microsoft.AspNetCore.Mvc;
 
-namespace delivery_order_services.ServicesCollectionExtensions
+namespace delivery_order_services.Helpers
 {
     public static  class ActionResultExtensions
     {

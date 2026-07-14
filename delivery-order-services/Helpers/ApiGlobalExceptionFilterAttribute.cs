@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace delivery_order_services.ServicesCollectionExtensions
+namespace delivery_order_services.Helpers
 {
     public class ApiGlobalExceptionFilterAttribute : ExceptionFilterAttribute
     {

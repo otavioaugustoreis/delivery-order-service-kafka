@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 
-namespace delivery_order_services.ServicesCollectionExtensions
+namespace delivery_order_services.Helpers
 {
     public static class BulderExtensions
     {

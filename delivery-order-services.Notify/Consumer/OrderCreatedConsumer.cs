@@ -2,7 +2,7 @@
 using delivery_order_services.Application.Shared.Abstractions.Consumer;
 using delivery_order_services.Application.Shared.Contants;
 
-namespace delivery_order_services.Notify.Features
+namespace delivery_order_services.Notify.Consumer
 {
     public class OrderCreatedConsumer : BackgroundService
     {
