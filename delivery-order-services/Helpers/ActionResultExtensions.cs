@@ -8,8 +8,13 @@ namespace delivery_order_services.ServicesCollectionExtensions
         public static ActionResult ToActionResult(this Result result) 
         {
             if (result.IsSuccess)
-                return new OkObjectResult(result);
+            {
+                if (result.GetContent() is null)
+                    return new NoContentResult();
 
+                return new OkObjectResult(result.GetContent());
+            }
+                
             return result.Error!.Code switch
             {
 
@@ -26,7 +31,6 @@ namespace delivery_order_services.ServicesCollectionExtensions
             };
         }
     }
-
     public class InternalServerErrorResult : StatusCodeResult
     {
         public InternalServerErrorResult() : base(500)

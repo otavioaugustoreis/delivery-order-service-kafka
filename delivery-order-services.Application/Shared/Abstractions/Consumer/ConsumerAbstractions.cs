@@ -114,18 +114,9 @@ namespace delivery_order_services.Application.Shared.Abstractions.Consumer
 
 
                     var delay = TimeSpan.FromMilliseconds(baseDelayMs * Math.Pow(2, attempt));
-                    try
-                    {
-                        await Task.Delay(delay, cancellationToken);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        throw;
-                    }
+                    await Task.Delay(delay, cancellationToken);
                 }
             }
-
-            throw new InvalidOperationException("Retry loop exited unexpectedly.");
         }
         private Task SendToDLQAsync(string message, Exception ex, CancellationToken cancellationToken)
         {

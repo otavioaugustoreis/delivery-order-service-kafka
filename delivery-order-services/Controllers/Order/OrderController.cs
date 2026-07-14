@@ -24,24 +24,13 @@ namespace delivery_order_services.Controllers.Order
         {
            var result = await _orderEventUseCase.InsertOneAsync(orderRequest, idempotencyKey, cancellationToken);
 
-            return result.ToActionResult();
+           return result.ToActionResult();
         }
 
         [HttpGet("client/{clientId}")]
-        public async Task<ActionResult> GetOrdersByClientIdAsync(string clientId,CancellationToken cancellationToken)
+        public async Task<ActionResult> GetOrdersByClientIdAsync(string clientId, CancellationToken cancellationToken)
         {
             var result = await _orderEventUseCase.FindByClientIdAsync(clientId ,cancellationToken);
-
-            return result.ToActionResult();
-        }
-
-        [HttpPost("order/{orderId}")]
-        public async Task<ActionResult> PostOrderDeliveredAsync(
-                [FromBody] OrderRequestModel orderRequest,
-                [FromHeader(Name = "Idempotency-Key")] string? idempotencyKey,
-                CancellationToken cancellationToken)
-        {
-            var result = await _orderEventUseCase.InsertOneAsync(orderRequest, idempotencyKey, cancellationToken);
 
             return result.ToActionResult();
         }

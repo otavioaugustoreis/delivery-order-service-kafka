@@ -1,4 +1,6 @@
 ﻿
+using MongoDB.Driver;
+
 namespace delivery_order_services.Application.Shared.Abstractions.Result
 {
 
@@ -17,6 +19,7 @@ namespace delivery_order_services.Application.Shared.Abstractions.Result
         public static Result Success() => new(null, true);
         public static Result Failed(Error? errorMessage) => new(errorMessage!, false);
 
+        public virtual object GetContent() => null;
     }
 
     public class Result<T> : Result
@@ -34,6 +37,8 @@ namespace delivery_order_services.Application.Shared.Abstractions.Result
 
         public static Result<T> Success(T result) => new(null,result,true);
         public static Result<T> Failed(Error? errorMessage) => new(errorMessage!,false);
+
+        public override object GetContent() => Content;
     }
 
     public class Error 
